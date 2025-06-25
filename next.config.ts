@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_BUCKET}/**`)],
+  },
 };
 
 export default nextConfig;

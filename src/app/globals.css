@@ -17,3 +17,9 @@ body {
   padding: 0;
   margin: 0;
 }
+
+:root {
+  --primary: #6e4ddc;
+  --gray: #686868;
+  --bg: #f5f6f9;
+}
