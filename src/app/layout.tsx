@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { QueryProvider } from './providers/queryProvider';
 
 export const metadata: Metadata = {
   title: 'Connectors',
@@ -26,7 +26,7 @@ export default function RootLayout({
           alignItems: 'center',
         }}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

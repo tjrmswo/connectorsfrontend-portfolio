@@ -1,6 +1,5 @@
-import { useLogin } from '@features/login/index';
+import { handleGoogleLogin } from '@features/login/api/useGoogleLogin';
 
 export default function GoogleLoginButton() {
-  const { handleGoogleLogin } = useLogin();
   return <button className="GoogleBtn" onClick={handleGoogleLogin} />;
 }
