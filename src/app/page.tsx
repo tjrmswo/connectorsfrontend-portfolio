@@ -27,11 +27,9 @@ export default function Home() {
     console.log(response);
   }
 
-  useEffect(() => {
-    // if (!accessToken) {
-    //   router.push('/load');
-    // }
-  }, []);
+  // useEffect(() => {
+  //   test();
+  // }, []);
 
   const settings = {
     dots: false,
