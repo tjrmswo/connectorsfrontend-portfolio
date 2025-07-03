@@ -12,3 +12,7 @@ export interface profileType {
   };
   interestIn: InterestItem[]; // 관심사 배열
 }
+
+export interface userFieldType {
+  profile: profileType | undefined;
+}
