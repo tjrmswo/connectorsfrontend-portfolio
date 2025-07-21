@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import './globals.css';
-import { QueryProvider } from './providers/queryProvider';
+import '@/app/globals.css';
+import { QueryProvider } from '@/app/providers/queryProvider';
+import { LayoutContainer } from '@/app/styles';
 
 export const metadata: Metadata = {
   title: 'Connectors',
@@ -16,17 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <QueryProvider>{children}</QueryProvider>
+    <html>
+      <body>
+        <LayoutContainer>
+          <QueryProvider>{children}</QueryProvider>
+        </LayoutContainer>
       </body>
     </html>
   );
