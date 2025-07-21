@@ -1,66 +1,6 @@
 'use client';
 import styled from 'styled-components';
 
-export const LayoutContainer = styled.div`
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    width: 10rem;
-    height: 50px;
-  }
-
-  .bottomTab {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 70px;
-    padding: 0;
-    margin-bottom: 0;
-
-    div {
-      width: 24rem;
-      height: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ffffff;
-    }
-
-    a {
-      text-decoration: none;
-      background-color: #fff;
-    }
-
-    .tabIcon {
-      width: 24px;
-      height: 24px;
-    }
-
-    .tabCol {
-      width: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      span {
-        color: #222222;
-        text-align: center;
-        font-size: 0.7rem;
-      }
-    }
-  }
-`;
-
 export const HomeContainer = styled.div`
   width: 24rem;
   height: 100vh;
