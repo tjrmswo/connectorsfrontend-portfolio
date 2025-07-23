@@ -34,7 +34,13 @@ export default function Header() {
         <ChevronLeft onClick={back} width={32} height={32} />
       )}
       {showDifferentComponents()}
-      <Link href={'/auth/login'} style={{ cursor: 'pointer' }}>
+      <Link
+        href={{
+          pathname: '/auth/login',
+          query: { redirectPath: `${pathname}` },
+        }}
+        style={{ cursor: 'pointer' }}
+      >
         <Image
           className="user"
           src={'/images/home/user_gray.svg'}
