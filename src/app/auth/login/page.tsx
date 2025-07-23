@@ -4,10 +4,17 @@ import { LoginContainer } from '@/app/auth/login/styles';
 import { ChevronLeft } from 'lucide-react';
 import GoogleLoginButton from '@/features/login/ui/GoogleLoginButton';
 import KakaoLoginButton from '@/features/login/ui/KakaoLoginButton';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Login() {
+  const params = useSearchParams();
+  // console.log('파라미터 확인: ', params.get('redirectPath'));
   const router = useRouter();
+
+  useEffect(() => {
+    console.log('파라미터 확인:', params.get('redirectPath'));
+  }, [params]);
 
   return (
     <LoginContainer>
@@ -28,8 +35,8 @@ export default function Login() {
             <p className="bubble">⚡️ 3초만에 빠른 회원가입</p>
 
             <div className="wrap_btn">
-              <GoogleLoginButton />
-              <KakaoLoginButton />
+              <GoogleLoginButton redirectPath={params.get('redirectPath')} />
+              <KakaoLoginButton redirectPath={params.get('redirectPath')} />
             </div>
           </div>
         </main>

@@ -1,8 +1,8 @@
 import instance from '@/shared/api/apiInstance';
 
-export const handleGoogleLogin = async () => {
+export const handleGoogleLogin = async (redirectPath: string) => {
   const response = await instance.get('/member/sign-in/oauth2', {
-    params: { oauth2Provider: 'GOOGLE' },
+    params: { oauth2Provider: 'GOOGLE', redirectPath },
     withCredentials: true,
   });
   const signInUrl = response.data.signInUrl;
