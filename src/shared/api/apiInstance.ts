@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_CONNECT_FORME_API_ADDRESS,
   timeout: 3000,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
   },
   withCredentials: true,
 });
@@ -18,7 +18,7 @@ instance.interceptors.request.use(
     }
 
     // 요청 전 공통 로직 또는 변수 주입
-    console.log('요청 보내기 전 작업:', config.url);
+    console.log('요청 보내기 전 작업:', config.url, config.params);
 
     return config;
   },
