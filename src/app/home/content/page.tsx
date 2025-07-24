@@ -4,8 +4,8 @@ import instance from '@/shared/api/apiInstance';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ContentType } from '@/app/home/content/type';
-import ContentSection from '@/features/content/ui/contentSection';
-import ContentNav from '@/features/content/ui/contentNav';
+import ContentSection from '@/features/content/components/contentSection';
+import ContentNav from '@/features/content/components/contentNav';
 
 export default function Content() {
   const [navStatus, setNavStatus] = useState<number>(0);

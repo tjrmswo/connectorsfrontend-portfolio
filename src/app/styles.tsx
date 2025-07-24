@@ -1,5 +1,19 @@
 'use client';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeInOut = keyframes`
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+`;
+
+const slideIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 export const LayoutContainer = styled.div`
   header {
@@ -61,195 +75,110 @@ export const LayoutContainer = styled.div`
   }
 `;
 
-export const HomeContainer = styled.div`
+export const SplashScreenContainer = styled.div`
   width: 24rem;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
 
-  & > *:not(:last-child) {
-    margin-bottom: 1rem;
-  }
-
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #e9e9e9;
-    background-color: white;
-    padding: 0.5rem;
-
-    .likeTitle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 10rem;
-      height: 50px;
-      font-size: 1.1rem;
-      font-weight: 550;
-    }
-  }
-
-  .logo {
-    width: 10rem;
-    height: 40px;
-  }
-
-  .wrap_a {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px 0;
-    padding: 25px;
-  }
-
-  .wrap_a > a {
-    width: 33.33%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 78px;
-    color: var(--gray-gray-02, #686868);
-  }
-
-  .wrap_a > a:before {
-    display: block;
-    width: 45px;
-    height: 45px;
+  #intro {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url('/intro01.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
-    content: '';
+    background-size: contain;
+    animation: ${fadeInOut} 3s forwards;
   }
 
-  .wrap_a > a:nth-of-type(1):before {
-    background-image: url('/images/home/link_plan.svg');
-  }
-  .wrap_a > a:nth-of-type(2):before {
-    background-image: url('/images/home/link_marketing.svg');
-  }
-  .wrap_a > a:nth-of-type(3):before {
-    background-image: url('/images/home/link_programming.svg');
-  }
-  .wrap_a > a:nth-of-type(4):before {
-    background-image: url('/images/home/link_hr.svg');
-  }
-  .wrap_a > a:nth-of-type(5):before {
-    background-image: url('/images/home/link_startup.svg');
-  }
-  .wrap_a > a:nth-of-type(6):before {
-    background-image: url('/images/home/link_design.svg');
-  }
-
-  .banner {
-    width: 100%;
-    height: fit-content;
-    object-fit: contain;
-  }
-
-  main {
-    display: flex;
+  .slides {
+    display: none; /* 초기엔 숨김 */
     flex-direction: column;
-    gap: 1rem;
-  }
-
-  .moreExpert {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
+    justify-content: flex-start;
+    height: 100%;
 
-    a {
-      text-decoration: none;
-    }
-
-    .semiTitle {
-      color: var(--primary);
-      font-size: 18px;
-      font-weight: 600;
+    &.show {
+      display: flex;
     }
   }
+`;
 
-  .dataSection {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+export const Slide = styled.div<{ bgimage: string; delay: string }>`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-image: ${(props) => `url(${props.bgimage})`};
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  animation: ${slideIn} 1s forwards;
+  animation-delay: ${(props) => props.delay || '0s'};
+  padding: 1rem;
 
-    .individualSection {
-      position: relative;
-    }
-
-    .individualSection p:nth-of-type(1) {
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    .individualSection p:nth-child(3) {
-      color: var(--gray-gray-02, #686868);
-      font-size: 12.54px;
-      font-weight: 500;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-      border-radius: 8px;
-      aspect-ratio: 160 / 120;
-      object-fit: cover;
-    }
-
-    .itemLike {
-      object-fit: contain;
-      position: absolute;
-      top: 3px;
-      left: 4.8rem;
-    }
+  & > div:nth-child(1) {
+    width: 100%;
+  }
+  & > div:nth-child(2) {
+    width: 100%;
   }
 
-  footer {
-    padding: 20px;
-    font-weight: 400;
-    font-size: 12px;
-    color: #999999;
-    background-color: #f1f2f3;
-    margin-top: 10rem;
-
-    a {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 18px;
-      color: #999999;
-      display: inline;
-      text-decoration: none;
-    }
-  }
-
-  footer p:nth-of-type(1) {
+  .slideComment1 {
+    color: var(--black);
+    font-size: 28px;
+    font-style: normal;
     font-weight: 700;
-    font-size: 14px;
-    line-height: 17.47px;
-    color: #686868;
-  }
-
-  footer p:nth-of-type(2) {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-    color: #999999;
-    margin-top: 10px;
+    line-height: 20px;
     white-space: pre-line;
   }
 
-  footer p:nth-of-type(3) {
+  .slideComment2 {
+    color: var(--gray);
+    font-size: 1rem;
+    font-style: normal;
     font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
-    color: #999999;
-    white-space: pre-ling;
-    word-break: break-all;
-    margin-top: 20px;
+    line-height: 20px;
+    white-space: pre-line;
+    margin-top: 10px;
   }
+
+  button {
+    width: 95%;
+    height: 50px;
+    background: #6e4ddc;
+    border-radius: 8px;
+    border-color: #6e4ddc;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .slideBtnWrapper {
+    width: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 7rem;
+    left: 2.5rem;
+  }
+`;
+
+export const SlideButton = styled.div<{
+  slideindex: number;
+  activeindex: number;
+}>`
+  cursor: pointer;
+  text-align: center;
+  background-color: ${({ slideindex, activeindex }) =>
+    slideindex === activeindex ? '#A894EA' : '#e2dbf8'};
+  height: 8px;
+  width: ${({ slideindex, activeindex }) =>
+    slideindex === activeindex ? '2rem' : '8px'};
+  transition: all 0.3s ease;
+  border-radius: 0.3rem;
 `;

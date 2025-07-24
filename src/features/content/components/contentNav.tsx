@@ -1,4 +1,4 @@
-import { element } from '@/shared/constants/contentElement';
+import { element } from '@/features/content/constants/contentElement';
 import { ContentNavType } from '@/features/content/types';
 
 export default function ContentNav({
