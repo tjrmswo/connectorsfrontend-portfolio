@@ -1,9 +1,9 @@
 'use client';
-import Header from '@/app/ui/header';
-import { tabIcons } from '@/shared/constants/bottomTabContents';
+import Header from '@/app/shared/components/header';
+import { tabIcons } from '@/app/home/shared/constants/bottomTabContents';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function HomeWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

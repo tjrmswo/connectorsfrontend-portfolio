@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '@/app/globals.css';
-import { QueryProvider } from '@/app/providers/queryProvider';
+import { QueryProvider } from '@/app/shared/providers/queryProvider';
 import { LayoutContainer } from '@/app/styles';
 
 export const metadata: Metadata = {

@@ -1,18 +1,18 @@
-import { ProfileContext } from '@/app/pages/user/mypage/context/profileContext';
+import { ProfileContext } from '@/app/user/mypage/contexts/profileContext';
 import { useContext } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-export default function UserNickname() {
+export default function UserEmail() {
   const { profile } = useContext(ProfileContext);
   const { register } = useFormContext();
   return (
     <div className="mypage__input">
-      <span>닉네임</span>
+      <span>이메일</span>
       <div className="inputBg">
         <input
           type="text"
-          value={profile ? profile.memberInfo.nickname : '#기쁜강아지4537'}
-          {...register('nickname', { required: true })}
+          value={profile ? profile.memberInfo.email : 'example@example.com'}
+          {...register('email')}
         />
         <button>변경</button>
       </div>
