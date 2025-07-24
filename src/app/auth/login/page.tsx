@@ -2,8 +2,8 @@
 import '@/app/globals.css';
 import { LoginContainer } from '@/app/auth/login/styles';
 import { ChevronLeft } from 'lucide-react';
-import GoogleLoginButton from '@/features/login/ui/GoogleLoginButton';
-import KakaoLoginButton from '@/features/login/ui/KakaoLoginButton';
+import GoogleLoginButton from '@/features/login/components/GoogleLoginButton';
+import KakaoLoginButton from '@/features/login/components/KakaoLoginButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 

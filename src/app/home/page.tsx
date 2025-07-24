@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeContainer } from '../styles';
+import { HomeContainer } from '@/app/home/styes';
 import Image from 'next/image';
 import Link from 'next/link';
 import { experts } from '@/shared/constants/experts';
