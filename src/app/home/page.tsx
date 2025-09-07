@@ -12,6 +12,17 @@ import { ContentType } from './content/type';
 import instance from '@/shared/api/apiInstance';
 
 export default function Home() {
+  const getRefreshToken = useQuery({
+    queryKey: ['refreshToken'],
+    queryFn: async () => {
+      const response = await instance.post(`/auth/token/refresh`);
+
+      console.log('refreshToken 갱신: ', response);
+
+      return response;
+    },
+  });
+
   const getContentData = useQuery<ContentType>({
     queryKey: ['getContentsData'],
     queryFn: async () => {
