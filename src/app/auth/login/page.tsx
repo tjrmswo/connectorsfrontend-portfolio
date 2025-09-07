@@ -2,19 +2,12 @@
 import '@/app/globals.css';
 import { LoginContainer } from '@/app/auth/login/styles';
 import { ChevronLeft } from 'lucide-react';
-import GoogleLoginButton from '@/features/login/components/GoogleLoginButton';
-import KakaoLoginButton from '@/features/login/components/KakaoLoginButton';
+import { GoogleLoginButton, KakakoLoginButton } from '@/features/login';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function Login() {
   const params = useSearchParams();
-  // console.log('파라미터 확인: ', params.get('redirectPath'));
   const router = useRouter();
-
-  useEffect(() => {
-    console.log('파라미터 확인:', params.get('redirectPath'));
-  }, [params]);
 
   return (
     <LoginContainer>
@@ -36,7 +29,7 @@ export default function Login() {
 
             <div className="wrap_btn">
               <GoogleLoginButton redirectPath={params.get('redirectPath')} />
-              <KakaoLoginButton redirectPath={params.get('redirectPath')} />
+              <KakakoLoginButton redirectPath={params.get('redirectPath')} />
             </div>
           </div>
         </main>

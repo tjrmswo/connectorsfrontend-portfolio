@@ -14,12 +14,13 @@ import instance from '@/shared/api/apiInstance';
 import { useEffect, useState } from 'react';
 import { profileType } from '@/entities/user/profile';
 import { AxiosResponse } from 'axios';
-import UserNickname from '@/features/user/components/userNickname';
-
-import UserEmail from '@/features/user/components/userEmail';
-import UserPhoneNumber from '@/features/user/components/userPhoneNumber';
+import {
+  UserEmail,
+  UserNickname,
+  UserInterest,
+  UserPhoneNumber,
+} from '@/features/user/index';
 import { ProfileContext } from '@/app/user/mypage/contexts/profileContext';
-import UserInterest from '@/features/user/components/userInterest';
 
 const userInformationSchema = z3.object({
   nickname: z3.string(),
