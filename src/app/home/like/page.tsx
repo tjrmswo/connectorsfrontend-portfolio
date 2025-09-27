@@ -2,13 +2,13 @@
 import { LikeContainer } from '@/app/home/like/styles';
 import instance from '@/shared/api/apiInstance';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LikeContentListType, currentPageType } from '@/app/home/like/type';
 import Image from 'next/image';
 
 export default function Like() {
   const [changeContent, setChangeContent] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<currentPageType>({
+  const [currentPage] = useState<currentPageType>({
     content: 0,
     expert: 0,
   });
@@ -24,21 +24,6 @@ export default function Like() {
       );
 
       console.log('컨텐츠 찜 리스트 호출 성공: ', response.data);
-      return response.data;
-    },
-  });
-
-  const getLikeExpertList = useQuery({
-    queryKey: ['getLikeExpertList', currentPage.expert],
-    queryFn: async () => {
-      const currentSize = 10;
-      const { expert } = currentPage;
-      const response = await instance.get(
-        `/wish/expert?page=${expert}&size=${currentSize}`
-      );
-
-      console.log('전문가 찜 리스트 호출 성공: ', response.data);
-
       return response.data;
     },
   });

@@ -3,7 +3,7 @@ import { CSSLoader } from '@/shared';
 import instance from '@/shared/api/apiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 export default function Provider() {
   const router = useRouter();
@@ -31,9 +31,13 @@ export default function Provider() {
     },
   });
 
-  useEffect(() => {
+  const mutateLogin = useCallback(() => {
     Login.mutate();
-  }, []);
+  }, [Login]);
+
+  useEffect(() => {
+    mutateLogin();
+  }, [mutateLogin]);
 
   return <CSSLoader />;
 }

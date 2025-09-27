@@ -2,16 +2,10 @@
 import { MypageContainer } from '@/app/user/mypage/styles';
 import '@app/globals.css';
 import { ArrowLeft } from 'lucide-react';
-import {
-  FieldErrors,
-  FormProvider,
-  useFieldArray,
-  useForm,
-} from 'react-hook-form';
+import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import z3 from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import instance from '@/shared/api/apiInstance';
-import { useEffect, useState } from 'react';
 import { profileType } from '@/entities/user/profile';
 import { AxiosResponse } from 'axios';
 import {
@@ -21,6 +15,7 @@ import {
   UserPhoneNumber,
 } from '@/features/user/index';
 import { ProfileContext } from '@/app/user/mypage/contexts/profileContext';
+import { useQuery } from '@tanstack/react-query';
 
 const userInformationSchema = z3.object({
   nickname: z3.string(),
@@ -37,16 +32,11 @@ const userInformationSchema = z3.object({
 type userInformationType = z3.infer<typeof userInformationSchema>;
 
 export default function Mypage() {
-  const [profile, setProfile] = useState<profileType>();
   const form = useForm<userInformationType>({
     resolver: zodResolver(userInformationSchema),
   });
 
-  const { register, handleSubmit, control } = form;
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'interests',
-  });
+  const { handleSubmit } = form;
 
   const onSubmit = (data: userInformationType) => {
     console.log('폼 데이터:', data); // 제일 안전하고 확실함
@@ -56,8 +46,9 @@ export default function Mypage() {
     console.error(errors);
 
   // 추 후에 Tanstack Query로 마이그레이션
-  async function getMyProfile() {
-    try {
+  const getMyProfile = useQuery({
+    queryKey: ['getMyProfile'],
+    queryFn: async () => {
       const response: AxiosResponse<profileType> = await instance.get(
         '/member/profile/me'
       );
@@ -67,38 +58,29 @@ export default function Mypage() {
       const { data } = response;
 
       if (response.status === 200) {
-        setProfile(response.data);
         form.setValue('nickname', data.memberInfo.nickname);
         form.setValue('email', data.memberInfo.email);
-        const defaultValue = [
-          { id: 0, name: 'its' },
-          { id: 1, name: 'showTime' },
-        ];
         form.setValue('interests', data.interestIn);
       }
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
-  async function modifyNickname() {
-    try {
-      const response = await instance.post('/member/profile/me/nickname', {
-        nickname: `${form.getValues('nickname')}`,
-      });
+      return response.data;
+    },
+  });
 
-      console.log('유저 프로필 닉네임 변경 성공:', response);
+  // async function modifyNickname() {
+  //   try {
+  //     const response = await instance.post('/member/profile/me/nickname', {
+  //       nickname: `${form.getValues('nickname')}`,
+  //     });
 
-      if (response.status === 200) {
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  //     console.log('유저 프로필 닉네임 변경 성공:', response);
 
-  useEffect(() => {
-    getMyProfile();
-  }, []);
+  //     if (response.status === 200) {
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
   return (
     <MypageContainer>
@@ -122,7 +104,7 @@ export default function Mypage() {
               </div>
 
               <div className="domainSection">
-                <ProfileContext.Provider value={{ profile }}>
+                <ProfileContext.Provider value={{ profile: getMyProfile.data }}>
                   <UserNickname />
                   <UserPhoneNumber />
                   <UserEmail />

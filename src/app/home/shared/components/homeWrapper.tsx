@@ -4,6 +4,7 @@ import { tabIcons } from '@/app/home/shared/constants/bottomTabContents';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 function HomeWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -29,8 +30,6 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
         setTabStatus(0);
         break;
     }
-
-    console.log(tabStatus);
   }, [pathname]);
 
   return (
@@ -54,9 +53,10 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
                 onClick={() => setTabStatus(index)}
               >
                 <div className="tabCol">
-                  <img
+                  <Image
                     className="tabIcon"
                     src={index === tabStatus ? icon.active : icon.normal}
+                    alt="탭아이콘"
                   />
                   <span className={index === tabStatus ? 'active' : undefined}>
                     {icon.name}

@@ -1,8 +1,8 @@
 'use client';
 import { ContentContainer } from '@/app/home/content/styles';
 import instance from '@/shared/api/apiInstance';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { ContentType } from '@/app/home/content/type';
 import ContentSection from '@/features/content/ui/contentSection';
 import ContentNav from '@/features/content/ui/contentNav';
@@ -54,32 +54,6 @@ export default function Content() {
       queryKey: ['getContentsData', currentPage, num],
     });
   };
-
-  const includeMyFavorities = useMutation({
-    mutationKey: ['includeMyFavorities'],
-    mutationFn: async (id: number) => {
-      const response = await instance.post(`/wish/content/${id}`);
-
-      return response;
-    },
-    onSuccess: (data) => {
-      console.log('찜에 추가 성공', data);
-      getData.refetch();
-    },
-  });
-
-  const removeMyFavorities = useMutation({
-    mutationKey: ['removeMyFavorities'],
-    mutationFn: async (id: number) => {
-      const response = await instance.delete(`/wish/content/${id}`);
-
-      return response;
-    },
-    onSuccess: (data) => {
-      console.log('찜에서 삭제 성공', data);
-      getData.refetch();
-    },
-  });
 
   function getCurrentPage(pageNum: number) {
     setCurrentPage(pageNum);
@@ -140,8 +114,6 @@ export default function Content() {
         getCurrentPage={getCurrentPage}
         getData={getData}
         currentPage={currentPage}
-        includeMyFavorities={includeMyFavorities}
-        removeMyFavorities={removeMyFavorities}
         pagesToRender={pagesToRender}
         paginationList={paginationList}
       />

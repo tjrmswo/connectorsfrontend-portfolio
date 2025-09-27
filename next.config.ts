@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
     domains: [`${DOMAIN_BUCKET}`, `${DOMAIN_DEV}`],
   },
   reactStrictMode: false,
+  output: 'standalone',
 };
 
 export default nextConfig;

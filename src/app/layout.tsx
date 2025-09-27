@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@/app/globals.css';
 import { QueryProvider } from '@/app/shared/providers/queryProvider';
 import { LayoutContainer } from '@/app/styles';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Connectors',
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <LayoutContainer>
-          <QueryProvider>{children}</QueryProvider>
-        </LayoutContainer>
+        <Suspense fallback={<div>로딩중...</div>}>
+          <LayoutContainer>
+            <QueryProvider>{children}</QueryProvider>
+          </LayoutContainer>
+        </Suspense>
       </body>
     </html>
   );

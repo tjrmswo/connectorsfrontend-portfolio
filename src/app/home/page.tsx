@@ -7,64 +7,18 @@ import { experts } from '@/shared/constants/experts';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { ContentType } from './content/type';
-import instance from '@/shared/api/apiInstance';
 
 export default function Home() {
-  const getRefreshToken = useQuery({
-    queryKey: ['refreshToken'],
-    queryFn: async () => {
-      const response = await instance.post(`/auth/token/refresh`);
+  // const getRefreshToken = useQuery({
+  //   queryKey: ['refreshToken'],
+  //   queryFn: async () => {
+  //     const response = await instance.get(`/field/info/list`);
 
-      console.log('refreshToken 갱신: ', response);
+  //     console.log('refreshToken 갱신: ', response);
 
-      return response;
-    },
-  });
-
-  const getContentData = useQuery<ContentType>({
-    queryKey: ['getContentsData'],
-    queryFn: async () => {
-      const params = {
-        size: 4,
-      };
-
-      const response = await instance.get(`/content`, {
-        params,
-      });
-
-      console.log('전체 페이지: ', response.data);
-
-      return response.data;
-    },
-  });
-
-  const includeMyFavorities = useMutation({
-    mutationKey: ['includeMyFavorities'],
-    mutationFn: async (id: number) => {
-      const response = await instance.post(`/wish/content/${id}`);
-
-      return response;
-    },
-    onSuccess: (data) => {
-      console.log('찜에 추가 성공', data);
-      getContentData.refetch();
-    },
-  });
-
-  const removeMyFavorities = useMutation({
-    mutationKey: ['removeMyFavorities'],
-    mutationFn: async (id: number) => {
-      const response = await instance.delete(`/wish/content/${id}`);
-
-      return response;
-    },
-    onSuccess: (data) => {
-      console.log('찜에서 삭제 성공', data);
-      getContentData.refetch();
-    },
-  });
+  //     return response;
+  //   },
+  // });
 
   const settings = {
     dots: false,
@@ -202,7 +156,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="dataSection">
-            {getContentData.data?.content.map((data) => (
+            {/* {getContentData.data?.content.map((data) => (
               <div className="individualSection" key={data.id}>
                 <div>
                   <Link href={'/'} style={{ cursor: 'pointer' }}>
@@ -234,7 +188,7 @@ export default function Home() {
                   <p>{`#${data.positionName}`}</p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </main>

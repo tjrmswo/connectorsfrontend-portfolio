@@ -1,6 +1,6 @@
 import '@/app/globals.css';
 import { HomeContainer } from '@/app/home/styes';
-import HomeWrapper from './shared/components/homeWrapper';
+import HomeWrapper from '@app/home/shared/components/homeWrapper';
 
 export default function HomeLayout({
   children,

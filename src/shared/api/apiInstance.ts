@@ -61,7 +61,7 @@ apiInstance.interceptors.response.use(
         // 리프레쉬 실패시 처리 (예: 로그아웃 또는 로그인 페이지 이동)
         console.error('리프레쉬 토큰 실패:', refreshError);
         // 예: 로그인 페이지로 이동시키기
-        window.location.href = '/auth/login';
+        // window.location.href = '/auth/login';
         return Promise.reject(refreshError);
       }
     }

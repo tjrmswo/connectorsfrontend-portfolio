@@ -1,6 +1,6 @@
 export function generateVerifier() {
   let text = '';
-  let possible =
+  const possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   const min = 42;

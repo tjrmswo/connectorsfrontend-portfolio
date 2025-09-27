@@ -3,8 +3,6 @@ import { ContentSectionType } from '@/features/content/types';
 
 export default function ContentSection({
   getData,
-  includeMyFavorities,
-  removeMyFavorities,
   currentPage,
   pagesToRender,
   getCurrentPage,
@@ -34,11 +32,11 @@ export default function ContentSection({
               alt="하트"
               width={30}
               height={30}
-              onClick={() => {
-                d.isWished
-                  ? removeMyFavorities.mutate(d.id)
-                  : includeMyFavorities.mutate(d.id);
-              }}
+              // onClick={() => {
+              //   d.isWished
+              //     ? removeMyFavorities.mutate(d.id)
+              //     : includeMyFavorities.mutate(d.id);
+              // }}
             />
             <div className="itemContent">
               <div className="itemHeader">
