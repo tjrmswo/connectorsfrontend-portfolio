@@ -38,7 +38,7 @@ jobs:
       - name: Deploy to server
         env:
           PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          HOST: ${{ secrets.SERVER_USER }}
+          HOST: ${{ secrets.SERVER_HOST }}
           USER: ${{ secrets.SERVER_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
