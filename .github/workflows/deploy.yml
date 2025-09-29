@@ -50,12 +50,11 @@ jobs:
           CONTAINER_NAME: ${{env.CONTAINER_NAME}}
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          username: ubuntu
           port: 22
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u JeekLee --password-stdin
-            docker pull $IMAGE_NAME:$GITHUB_SHA
-            # docker stop $CONTAINER_NAME || true
-            # docker rm $CONTAINER_NAME || true
-            # docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME
+            echo $IMAGE_NAME
+            echo $GITHUB_SHA
+            docker pull $IMAGE_NAME:latest
