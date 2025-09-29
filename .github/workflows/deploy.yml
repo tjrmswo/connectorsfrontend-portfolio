@@ -25,6 +25,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Set .env
+        env:
+          PROPERTY_FILE: ${{ secrets.DEV_ENV }}
+          PROPERTY_FILE_NAME: .env
+        run: echo $PROPERTY_FILE > $PROPERTY_FILE_NAME
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
