@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches: ['dev']
-  workflow_dispatch: # 수동 실행 가능
+  workflow_dispatch:
 
 env:
   APP_NAME: ${{ secrets.APP_NAME }}
