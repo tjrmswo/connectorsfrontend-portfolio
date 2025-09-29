@@ -54,7 +54,7 @@ jobs:
           port: 22
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u tjrmswo --password-stdin
+            echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u JeekLee --password-stdin
             docker pull $IMAGE_NAME:$GITHUB_SHA
             # docker stop $CONTAINER_NAME || true
             # docker rm $CONTAINER_NAME || true
