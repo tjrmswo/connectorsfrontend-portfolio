@@ -38,12 +38,13 @@ jobs:
       - name: Deploy to server
         env:
           PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          HOST: ${{ secrets.SERVER_HOST }}
+          HOST: ${{ secrets.SERVER_USER }}
           USER: ${{ secrets.SERVER_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
-            docker pull ${{ env.IMAGE_NAME }}:${{ github.sha }} &&
-            docker stop ${{ env.CONTAINER_NAME }} || true &&
-            docker rm ${{ env.CONTAINER_NAME }} || true &&
-            docker run -d --name ${{ env.CONTAINER_NAME }} -p 3000:3000 --restart unless-stopped ${{ env.IMAGE_NAME }}:
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} <<EOF
+            docker pull ${IMAGE_NAME}:${GITHUB_SHA}
+            docker stop ${CONTAINER_NAME} || true
+            docker rm ${CONTAINER_NAME} || true
+            docker run -d --name ${CONTAINER_NAME} -p 3000:3000 --restart unless-stopped ${IMAGE_NAME}
+          EOF
