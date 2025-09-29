@@ -50,6 +50,6 @@ jobs:
           script: |
             echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u tjrmswo --password-stdin
             docker pull $IMAGE_NAME:$GITHUB_SHA
-            docker stop $CONTAINER_NAME || true
-            docker rm $CONTAINER_NAME || true
-            docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME
+            # docker stop $CONTAINER_NAME || true
+            # docker rm $CONTAINER_NAME || true
+            # docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME
