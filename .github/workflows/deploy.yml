@@ -36,15 +36,20 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy to server
+        uses: appleboy/ssh-action@master
         env:
-          PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          HOST: ${{ secrets.SERVER_HOST }}
-          USER: ${{ secrets.SERVER_USER }}
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} <<EOF
-            docker pull ${IMAGE_NAME}:${GITHUB_SHA}
-            docker stop ${CONTAINER_NAME} || true
-            docker rm ${CONTAINER_NAME} || true
-            docker run -d --name ${CONTAINER_NAME} -p 3000:3000 --restart unless-stopped ${IMAGE_NAME}
-          EOF
+          PACKAGE_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_NAME: ${{env.IMAGE_NAME}}
+          GITHUB_SHA: ${{env.GITHUB_SHA}}
+          CONTAINER_NAME: ${{env.CONTAINER_NAME}}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: 22
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u tjrmswo --password-stdin
+            docker pull $IMAGE_NAME:$GITHUB_SHA
+            docker stop $CONTAINER_NAME || true
+            docker rm $CONTAINER_NAME || true
+            docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME
