@@ -16,6 +16,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
+      - name: Check pnpm store directory
+        run: |
+          echo "Checking pnpm store directory..."
+          pnpm config get store-dir
       
       - name: Cache
         uses: actions/cache@v4.3.0
