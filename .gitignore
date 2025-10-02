@@ -42,5 +42,3 @@ next-env.d.ts
 
 #local https settings
 certificates
-
-pnpm-lock.yaml
