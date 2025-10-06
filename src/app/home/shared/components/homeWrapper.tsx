@@ -57,6 +57,8 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
                     className="tabIcon"
                     src={index === tabStatus ? icon.active : icon.normal}
                     alt="탭아이콘"
+                    width={15}
+                    height={15}
                   />
                   <span className={index === tabStatus ? 'active' : undefined}>
                     {icon.name}

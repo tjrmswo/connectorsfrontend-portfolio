@@ -3,7 +3,7 @@ import { CSSLoader } from '@/shared';
 import instance from '@/shared/api/apiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 export default function Provider() {
   const router = useRouter();
@@ -31,13 +31,14 @@ export default function Provider() {
     },
   });
 
-  const mutateLogin = useCallback(() => {
-    Login.mutate();
-  }, [Login]);
+  // const mutateLogin = useCallback(() => {
+  //   Login.mutate();
+  // }, [Login]);
 
   useEffect(() => {
-    mutateLogin();
-  }, [mutateLogin]);
+    Login.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <CSSLoader />;
 }
