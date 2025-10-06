@@ -20,11 +20,11 @@ export const SplashScreenContainer = styled.div`
 
   #intro {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    height: 30%;
     top: 0;
     left: 0;
-    background-image: url('/intro01.png');
+    background-image: url('/intro.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
