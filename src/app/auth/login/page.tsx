@@ -1,42 +1,64 @@
-'use client';
-import '@/app/globals.css';
-import { LoginContainer } from '@/app/auth/login/styles';
-import { ChevronLeft } from 'lucide-react';
-import { GoogleLoginButton, KakakoLoginButton } from '@/features/login';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+"use client";
+import {
+  AppleLoginButton,
+  GoogleLoginButton,
+  KakakoLoginButton,
+  LoginHeader,
+} from "@/features/auth";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import { CommonToast } from "@/shared";
+import { useState } from "react";
 
 export default function Login() {
+  const [showToast, setShowToast] = useState({
+    comment: "",
+    status: 0,
+    state: false,
+  });
   const params = useSearchParams();
-  const router = useRouter();
 
   return (
-    <Suspense fallback={<div>로딩중...</div>}>
-      <LoginContainer>
-        <div className="mobileView">
-          <header>
-            <ChevronLeft
-              width={30}
-              height={30}
-              style={{ cursor: 'pointer' }}
-              onClick={() => router.back()}
-            />
-          </header>
-          <main>
-            <div className="middle">{`로그인 후
-          진정한 성장을 경험하세요!`}</div>
+    <div className="flex h-full w-full flex-col items-center justify-around p-[5px]">
+      <LoginHeader />
+      <Image
+        className="relative bottom-[1rem] w-3/5 object-contain"
+        src={"/intro.png"}
+        alt="스플래시 스크린"
+        width={100}
+        height={150}
+      />
 
-            <div className="bottom">
-              <p className="bubble">⚡️ 3초만에 빠른 회원가입</p>
+      <div className="mb-[5rem] flex h-auto w-full flex-col items-center justify-between gap-[6px]">
+        <KakakoLoginButton
+          redirectPath={params.get("redirectPath")}
+          setShowToast={setShowToast}
+        />
+        <GoogleLoginButton
+          redirectPath={params.get("redirectPath")}
+          setShowToast={setShowToast}
+        />
+        {/* 애플 로그인 */}
+        <AppleLoginButton />
+      </div>
 
-              <div className="wrap_btn">
-                <GoogleLoginButton redirectPath={params.get('redirectPath')} />
-                <KakakoLoginButton redirectPath={params.get('redirectPath')} />
-              </div>
-            </div>
-          </main>
+      <button
+        onClick={() => {
+          setShowToast({ ...showToast, state: true });
+          setTimeout(() => setShowToast({ ...showToast, state: false }), 1500);
+        }}
+      >
+        test
+      </button>
+
+      {showToast.state && (
+        <div className="fixed top-[2rem] translate-y-[10px] rounded-[6px] shadow-xl transition-all duration-1000 ease-in-out">
+          <CommonToast
+            content={showToast.comment}
+            status={String(showToast.status)}
+          />
         </div>
-      </LoginContainer>
-    </Suspense>
+      )}
+    </div>
   );
 }

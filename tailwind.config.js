@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./entities/**/*.{js,ts,jsx,tsx,mdx}",
+    "./features/**/*.{js,ts,jsx,tsx,mdx}",
+    "./shared/**/*.{js,ts,jsx,tsx,mdx}",
+    "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     extend: {
+      boxShadow: {
+        custom: "0 4px 6px -1px rgba(243, 244, 246, 0.5)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -90,6 +100,7 @@ module.exports = {
         "4xl": "2.25rem",
       },
     },
+    extend: {},
   },
   plugins: [],
 };

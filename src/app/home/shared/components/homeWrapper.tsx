@@ -1,10 +1,10 @@
-'use client';
-import Header from '@/app/shared/components/header';
-import { tabIcons } from '@/app/home/shared/constants/bottomTabContents';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+"use client";
+import Header from "@/shared/ui/header";
+import { tabIcons } from "@/app/home/shared/constants/bottomTabContents";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 function HomeWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -14,16 +14,16 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
     const pathSuffix = pathname.slice(6);
 
     switch (pathSuffix) {
-      case 'content':
+      case "content":
         setTabStatus(1);
         break;
-      case 'expert':
+      case "expert":
         setTabStatus(2);
         break;
-      case 'like':
+      case "like":
         setTabStatus(3);
         break;
-      case 'report':
+      case "report":
         setTabStatus(4);
         break;
       default:
@@ -33,16 +33,16 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: "100%", height: "100%" }}>
       <Header />
       {children}
       <nav className="bottomTab">
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            boxShadow: '0 2px 8px 3px #f3f1f3',
-            justifyContent: 'space-around',
+            display: "flex",
+            flexDirection: "row",
+            boxShadow: "0 2px 8px 3px #f3f1f3",
+            justifyContent: "space-around",
           }}
         >
           {tabIcons.map((icon, index) => {
@@ -60,7 +60,7 @@ function HomeWrapper({ children }: { children: React.ReactNode }) {
                     width={15}
                     height={15}
                   />
-                  <span className={index === tabStatus ? 'active' : undefined}>
+                  <span className={index === tabStatus ? "active" : undefined}>
                     {icon.name}
                   </span>
                 </div>

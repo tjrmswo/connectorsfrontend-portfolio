@@ -1,8 +1,8 @@
-'use client';
-import styled from 'styled-components';
+"use client";
+import styled from "styled-components";
 
 export const HomeContainer = styled.div`
-  width: 24rem;
+  width: 32rem;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -61,26 +61,26 @@ export const HomeContainer = styled.div`
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    content: '';
+    content: "";
   }
 
   .wrap_a > a:nth-of-type(1):before {
-    background-image: url('/images/home/link_plan.svg');
+    background-image: url("/images/home/link_plan.svg");
   }
   .wrap_a > a:nth-of-type(2):before {
-    background-image: url('/images/home/link_marketing.svg');
+    background-image: url("/images/home/link_marketing.svg");
   }
   .wrap_a > a:nth-of-type(3):before {
-    background-image: url('/images/home/link_programming.svg');
+    background-image: url("/images/home/link_programming.svg");
   }
   .wrap_a > a:nth-of-type(4):before {
-    background-image: url('/images/home/link_hr.svg');
+    background-image: url("/images/home/link_hr.svg");
   }
   .wrap_a > a:nth-of-type(5):before {
-    background-image: url('/images/home/link_startup.svg');
+    background-image: url("/images/home/link_startup.svg");
   }
   .wrap_a > a:nth-of-type(6):before {
-    background-image: url('/images/home/link_design.svg');
+    background-image: url("/images/home/link_design.svg");
   }
 
   .banner {

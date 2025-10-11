@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,14 +8,16 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import apiInstance from "@/shared/api/apiInstance";
 import { onBoardingDataType } from "@/entities/boarding/type";
+import { useCustomRouter } from "@/shared";
 
 export default function SplashScreen() {
-  const router = useRouter();
   const [showIntro, setShowIntro] = useState<boolean>(true);
   const [isShowing, setIsShowing] = useState<boolean>(false);
   const [showSlides, setShowSlides] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
-  let sliderRef = useRef<Slider | null>(null);
+  const sliderRef = useRef<Slider | null>(null);
+
+  const { navigate } = useCustomRouter();
 
   useEffect(() => {
     setIsShowing(true);
@@ -55,7 +56,7 @@ export default function SplashScreen() {
   };
 
   const routingHome = () => {
-    router.push("/home");
+    navigate({ path: "/home", type: "push" });
   };
 
   function SampleNextArrow() {
@@ -78,16 +79,10 @@ export default function SplashScreen() {
       setSlideIndex(newIndex),
   };
 
-  useEffect(() => {
-    console.log("슬라이드 인덱스: ", slideIndex);
-  }, [slideIndex]);
-
   const { data: onBoardingData } = useQuery<onBoardingDataType[]>({
     queryKey: ["onBoarding"],
     queryFn: async () => {
       const response = await apiInstance.get("/onboarding/info");
-
-      console.log("온보딩 데이터 ", response.data);
       return response.data;
     },
   });
@@ -96,7 +91,7 @@ export default function SplashScreen() {
     <div className="flex h-full w-full items-center justify-center p-[5px]">
       {showIntro && (
         <div
-          className={`duration-1000 relative bottom-[2rem] flex h-1/5 w-full transform items-center justify-center opacity-0 transition-all ease-linear ${isShowing ? "translate-y-0 opacity-100" : "translate-y-[10px] opacity-0"} `}
+          className={`relative bottom-[2rem] flex h-1/5 w-full transform items-center justify-center opacity-0 transition-all duration-1000 ease-linear ${isShowing ? "translate-y-0 opacity-100" : "translate-y-[10px] opacity-0"} `}
         >
           <Image
             className="w-3/5 object-contain"
