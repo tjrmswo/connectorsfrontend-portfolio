@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+// #6E4BDD
 
 export default function CssLoader() {
   return (
@@ -186,11 +187,11 @@ export default function CssLoader() {
           <g transform="translate(64,28)">
             <g className="pl__arrows" transform="rotate(45,16,52)">
               <path
-                fill="#6BE2D0"
+                fill="#6be2d0b1"
                 d="M17.998,1.506l13.892,43.594c.455,1.426-.56,2.899-1.998,2.899H2.108c-1.437,0-2.452-1.473-1.998-2.899L14.002,1.506c.64-2.008,3.356-2.008,3.996,0Z"
               ></path>
               <path
-                fill="hsl(223,10%,90%)"
+                fill="#6d4bdd93"
                 d="M14.009,102.499L.109,58.889c-.453-1.421,.559-2.889,1.991-2.889H29.899c1.433,0,2.444,1.468,1.991,2.889l-13.899,43.61c-.638,2.001-3.345,2.001-3.983,0Z"
               ></path>
             </g>
@@ -200,11 +201,11 @@ export default function CssLoader() {
           <g transform="translate(64,28)">
             <g className="pl__arrows" transform="rotate(45,16,52)">
               <path
-                fill="#6be2d0d1"
+                fill="#6BE2D0"
                 d="M17.998,1.506l13.892,43.594c.455,1.426-.56,2.899-1.998,2.899H2.108c-1.437,0-2.452-1.473-1.998-2.899L14.002,1.506c.64-2.008,3.356-2.008,3.996,0Z"
               ></path>
               <path
-                fill="#6E4BDD"
+                fill=" #8f74ea"
                 d="M14.009,102.499L.109,58.889c-.453-1.421,.559-2.889,1.991-2.889H29.899c1.433,0,2.444,1.468,1.991,2.889l-13.899,43.61c-.638,2.001-3.345,2.001-3.983,0Z"
               ></path>
             </g>
@@ -221,6 +222,7 @@ const CSSLoader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   .pl {
     display: block;
     width: 9.375em;
@@ -312,12 +314,12 @@ const CSSLoader = styled.div`
   @keyframes ringStroke42 {
     from,
     to {
-      strokedashoffset: 452;
+      stroke-dashoffset: 452;
       transform: rotate(-45deg);
     }
 
     50% {
-      strokedashoffset: 169.5;
+      stroke-dashoffset: 169.5;
       transform: rotate(-180deg);
     }
   }
@@ -327,12 +329,12 @@ const CSSLoader = styled.div`
     3%,
     47%,
     to {
-      strokedashoffset: -12;
+      stroke-dashoffset: -12;
     }
 
     14%,
     36% {
-      strokedashoffset: 0;
+      stroke-dashoffset: 0;
     }
   }
 `;
