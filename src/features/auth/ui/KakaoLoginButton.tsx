@@ -1,8 +1,8 @@
-import { kakaoLoginMutationFn } from "@/features/auth/api/KakaoLogin";
-import { LoginErrorType, LoginType } from "@/entities/auth/type";
+import { kakaoLoginMutationFn } from "@/features/auth";
+import { LoginErrorType, LoginType } from "@/entities/auth";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import { useCustomRouter } from "@/shared";
+import { useCustomRouter } from "@/shared/ui";
 
 export default function KakaoLoginButton({
   redirectPath,

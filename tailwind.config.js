@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
       boxShadow: {
         custom: "0 4px 6px -1px rgba(243, 244, 246, 0.5)",
       },

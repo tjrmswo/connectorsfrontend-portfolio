@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+// CSS 임포트
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { QueryProvider } from "@/shared/providers/queryProvider";
 import { Suspense } from "react";
 
@@ -17,9 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html lang="ko">
       <body>
-        <Suspense fallback={<div>로딩중...</div>}>
+        <Suspense fallback={<div></div>}>
           <QueryProvider>
             <div className="flex h-screen min-h-screen w-[32rem] items-center">
               {children}

@@ -1,25 +1,14 @@
-'use client';
+"use client";
 
-import { HomeContainer } from '@/app/home/styes';
-import Image from 'next/image';
-import Link from 'next/link';
-import { experts } from '@/shared/constants/experts';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+import { HomeContainer } from "@/app/home/styes";
+import Image from "next/image";
+import Link from "next/link";
+import { experts } from "@/shared/constants/experts";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export default function Home() {
-  // const getRefreshToken = useQuery({
-  //   queryKey: ['refreshToken'],
-  //   queryFn: async () => {
-  //     const response = await instance.get(`/field/info/list`);
-
-  //     console.log('refreshToken 갱신: ', response);
-
-  //     return response;
-  //   },
-  // });
-
   const settings = {
     dots: false,
     infinite: true,
@@ -39,7 +28,7 @@ export default function Home() {
             <Image
               className="banner"
               src={
-                'https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/Banner1.png'
+                "https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/Banner1.png"
               }
               alt="banner01"
               width={150}
@@ -50,7 +39,7 @@ export default function Home() {
             <Image
               className="banner"
               src={
-                'https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/freecoupon-banner.png'
+                "https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/freecoupon-banner.png"
               }
               alt="banner02"
               width={150}
@@ -61,7 +50,7 @@ export default function Home() {
             <Image
               className="banner"
               src={
-                'https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/Banner3.png'
+                "https://connecting-road-image-bucket.s3.ap-northeast-2.amazonaws.com/Banner3.png"
               }
               alt="banner01"
               width={150}
@@ -82,16 +71,16 @@ export default function Home() {
 
       <main>
         {/* 전문가 */}
-        <div style={{ marginBottom: '0.5rem' }}>
+        <div style={{ marginBottom: "0.5rem" }}>
           <div className="moreExpert">
             <h3>
               <span className="semiTitle">전문가 </span>
               살펴보기
             </h3>
-            <Link href={'/'} style={{ display: 'flex', alignItems: 'center' }}>
+            <Link href={"/"} style={{ display: "flex", alignItems: "center" }}>
               더보기
               <Image
-                src={'/images/home/arrow_more.svg'}
+                src={"/images/home/arrow_more.svg"}
                 alt="더보기"
                 width={20}
                 height={20}
@@ -102,7 +91,7 @@ export default function Home() {
             {experts.map((data) => (
               <div className="individualSection" key={data.id}>
                 <div>
-                  <Link href={'/'} style={{ cursor: 'pointer' }}>
+                  <Link href={"/"} style={{ cursor: "pointer" }}>
                     <Image
                       src={data.src}
                       alt="전문가 사진"
@@ -117,7 +106,7 @@ export default function Home() {
                     //     ? '/images/home/nav-like-active.svg'
                     //     : '/images/home/like.svg'
                     // }
-                    src={'/images/home/like.svg'}
+                    src={"/images/home/like.svg"}
                     alt="하트"
                     width={20}
                     height={20}
@@ -143,12 +132,12 @@ export default function Home() {
               살펴보기
             </h3>
             <Link
-              href={'/home/content'}
-              style={{ display: 'flex', alignItems: 'center' }}
+              href={"/home/content"}
+              style={{ display: "flex", alignItems: "center" }}
             >
               더보기
               <Image
-                src={'/images/home/arrow_more.svg'}
+                src={"/images/home/arrow_more.svg"}
                 alt="더보기"
                 width={20}
                 height={20}
@@ -204,15 +193,15 @@ export default function Home() {
           커넥터즈는 모든 거래에 대한 책임과 교환. 환불 민원 등의 처리를
           고객센터에서 진행합니다. 자세한 문의는 E-Mail :
           manage1@connectingforall.com, 유선 010-6381-9134으로 가능하며 고객센터
-          링크는{' '}
+          링크는{" "}
         </p>
         <Link
           href={
-            'https://connectors.oopy.io/6251c9af-02ae-44b9-acbc-778827aebaf2'
+            "https://connectors.oopy.io/6251c9af-02ae-44b9-acbc-778827aebaf2"
           }
         >
           https://connectors.oopy.io/6251c9af-02ae-44b9-acbc-778827aebaf2
-        </Link>{' '}
+        </Link>{" "}
         입니다.
       </footer>
     </HomeContainer>

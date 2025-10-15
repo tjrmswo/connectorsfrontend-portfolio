@@ -1,8 +1,8 @@
-import { googleLoginMutationFn } from "@/features/auth/api/GoogleLogin";
-import { LoginErrorType, LoginType } from "@/entities/auth/type";
+import { googleLoginMutationFn } from "@/features/auth";
+import { LoginErrorType, LoginType } from "@/entities/auth";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import { useCustomRouter } from "@/shared";
+import { useCustomRouter } from "@/shared/ui";
 
 export default function GoogleLoginButton({
   redirectPath,
@@ -22,6 +22,7 @@ export default function GoogleLoginButton({
       window.location.href = signInUrl;
     },
     onError: (e: LoginErrorType) => {
+      console.log(e);
       setShowToast({
         status: e.status,
         comment: e.response.data.message,

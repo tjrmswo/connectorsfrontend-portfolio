@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: ['dev']
+    branches: ["dev"]
   workflow_dispatch:
 
 env:
@@ -16,13 +16,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Cache
         uses: actions/cache@v4.3.0
         with:
           path: node_modules/.pnpm
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          
+
       - name: Verify cache presence
         run: |
           if ls ~/.pnpm-store >/dev/null 2>&1; then
@@ -30,7 +30,7 @@ jobs:
           else
             echo "pnpm cache does not exist."
           fi
-          
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -40,7 +40,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Set .env
         env:
           PROPERTY_FILE: ${{ secrets.DEV_ENV }}

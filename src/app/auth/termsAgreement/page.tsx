@@ -1,7 +1,7 @@
 "use client";
-import { TermAgreementType } from "@/entities/auth/type";
-import { useCustomRouter } from "@/shared";
-import apiInstance from "@/shared/api/apiInstance";
+import { TermAgreementType } from "@/entities/auth";
+import { useCustomRouter } from "@/shared/ui";
+import { apiInstance } from "@/shared/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import React, { useState } from "react";

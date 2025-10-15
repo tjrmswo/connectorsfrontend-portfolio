@@ -4,18 +4,21 @@ import {
   GoogleLoginButton,
   KakakoLoginButton,
   LoginHeader,
+  useAnimatedToast,
 } from "@/features/auth";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { CommonToast } from "@/shared";
-import { useState } from "react";
+import { CommonToast } from "@/shared/ui";
 
 export default function Login() {
-  const [showToast, setShowToast] = useState({
-    comment: "",
-    status: 0,
-    state: false,
-  });
+  // const [showToast, setShowToast] = useState({
+  //   comment: "d12351",
+  //   status: 400,
+  //   state: false,
+  // });
+  // const [shouldRender, setShouldRender] = useState<boolean>(false);
+
+  const { toast, shouldRender, showToast, setToast } = useAnimatedToast(1500);
   const params = useSearchParams();
 
   return (
@@ -29,36 +32,48 @@ export default function Login() {
         height={150}
       />
 
-      <div className="mb-[5rem] flex h-auto w-full flex-col items-center justify-between gap-[6px]">
+      <div className="mb-[5rem] flex h-auto w-full flex-col items-center justify-between gap-2">
         <KakakoLoginButton
           redirectPath={params.get("redirectPath")}
-          setShowToast={setShowToast}
+          setShowToast={setToast}
         />
         <GoogleLoginButton
           redirectPath={params.get("redirectPath")}
-          setShowToast={setShowToast}
+          setShowToast={setToast}
         />
         {/* 애플 로그인 */}
         <AppleLoginButton />
       </div>
 
-      <button
-        onClick={() => {
-          setShowToast({ ...showToast, state: true });
-          setTimeout(() => setShowToast({ ...showToast, state: false }), 1500);
-        }}
-      >
-        test
-      </button>
+      <button onClick={() => showToast("코멘트 메시지", 400)}>test</button>
 
-      {showToast.state && (
-        <div className="fixed top-[2rem] translate-y-[10px] rounded-[6px] shadow-xl transition-all duration-1000 ease-in-out">
+      {/* <div
+        className={`fixed top-[2rem] rounded-lg border border-[#f4f4f4] opacity-0 shadow-xl transition-all duration-1000 ease-in-out ${showToast.state ? "-translate-y-[5px] opacity-100" : "translate-y-[0px] opacity-0"}`}
+      >
+        <CommonToast
+          content={showToast.comment}
+          status={String(showToast.status)}
+        />
+      </div> */}
+      {shouldRender && (
+        <div
+          className={`fixed top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-[0px] opacity-100"
+              : "-translate-y-[-20px] opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
+        </div>
+      )}
+      {/* {showToast.state && (
+        <div className="fixed top-[2rem] -translate-y-[10px] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-1000 ease-in-out">
           <CommonToast
             content={showToast.comment}
             status={String(showToast.status)}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
