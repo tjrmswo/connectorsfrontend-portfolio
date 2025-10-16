@@ -20,7 +20,7 @@ jobs:
       - name: Set .env
         env:
           ENV_FILE: ${{ secrets.DEV_ENV }}
-        run: echo $ENV_FILE > .env
+        run: echo "$ENV_FILE" > .env
 
       - name: Cache
         uses: actions/cache@v4.3.0
