@@ -17,6 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set .env
+        env:
+          PROPERTY_FILE: ${{ secrets.DEV_ENV }}
+          PROPERTY_FILE_NAME: .env
+        run: echo $PROPERTY_FILE > $PROPERTY_FILE_NAME
+
       - name: Cache
         uses: actions/cache@v4.3.0
         with:
@@ -40,12 +46,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set .env
-        env:
-          PROPERTY_FILE: ${{ secrets.DEV_ENV }}
-          PROPERTY_FILE_NAME: .env
-        run: echo $PROPERTY_FILE > $PROPERTY_FILE_NAME
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
