@@ -17,11 +17,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Set .env
-      #   env:
-      #     PROPERTY_FILE: ${{ secrets.DEV_ENV }}
-      #     PROPERTY_FILE_NAME: .env
-      #   run: echo "$PROPERTY_FILE" > $PROPERTY_FILE_NAME
+      - name: Set .env
+        env:
+          PROPERTY_FILE: ${{ secrets.DEV_ENV }}
+          PROPERTY_FILE_NAME: .env
+        run: echo "$PROPERTY_FILE" > $PROPERTY_FILE_NAME
 
       - name: Cache
         uses: actions/cache@v4.3.0
@@ -55,8 +55,6 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }},${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            ENV_FILE=${{ secrets.DEV_ENV }}
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -73,7 +71,7 @@ jobs:
           envs: PACKAGE_ACCESS_TOKEN, IMAGE_NAME, GITHUB_SHA, CONTAINER_NAME
           script: |
             echo $PACKAGE_ACCESS_TOKEN | docker login ghcr.io -u JeekLee --password-stdin
+            docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME
+            sudo docker rmi $(docker images | grep "$CONTAINER_NAME") -f
             docker pull $IMAGE_NAME:$GITHUB_SHA
-            docker stop $CONTAINER_NAME || true
-            docker rm $CONTAINER_NAME || true
-            docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME
+            docker run -d --name $CONTAINER_NAME -p 3000:3000 --restart unless-stopped $IMAGE_NAME:$GITHUB_SHA
