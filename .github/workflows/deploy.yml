@@ -17,18 +17,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set .env
-        env:
-          PROPERTY_FILE: ${{ secrets.DEV_ENV }}
-          PROPERTY_FILE_NAME: .env
-        run: echo "$PROPERTY_FILE" > $PROPERTY_FILE_NAME
-
-      - name: Verify .env file  # 추가!
-        run: |
-          ls -la .env
-          echo "=== .env content ==="
-          cat .env
-          echo "==================="
+      # - name: Set .env
+      #   env:
+      #     PROPERTY_FILE: ${{ secrets.DEV_ENV }}
+      #     PROPERTY_FILE_NAME: .env
+      #   run: echo "$PROPERTY_FILE" > $PROPERTY_FILE_NAME
 
       - name: Cache
         uses: actions/cache@v4.3.0
@@ -62,6 +55,8 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }},${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            ENV_FILE=${{ secrets.DEV_ENV }}
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
