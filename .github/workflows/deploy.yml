@@ -21,7 +21,7 @@ jobs:
         env:
           PROPERTY_FILE: ${{ secrets.DEV_ENV }}
           PROPERTY_FILE_NAME: .env
-        run: echo $PROPERTY_FILE > $PROPERTY_FILE_NAME
+        run: echo "$PROPERTY_FILE" > $PROPERTY_FILE_NAME
 
       - name: Cache
         uses: actions/cache@v4.3.0
