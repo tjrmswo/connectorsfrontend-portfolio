@@ -20,10 +20,12 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
+ARG ENV_FILE
+RUN if [ -n "$ENV_FILE" ]; then echo "$ENV_FILE" > .env; fi
+
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/.env ./.env
 
 EXPOSE 3000
 
