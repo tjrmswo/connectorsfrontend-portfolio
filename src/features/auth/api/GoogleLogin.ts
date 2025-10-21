@@ -50,24 +50,33 @@ export async function googleLoginMutationFn({
 async function getGoogleAccessToken(params: ReadonlyURLSearchParams) {
   const [code, state] = ["code", "state"].map((d) => params.get(`${d}`));
 
-  const response = await apiInstance.post("/auth/oauth2/login", {
-    provider: "GOOGLE",
-    code,
-    state,
-  });
+  const response: LoginSuccessType = await apiInstance.post(
+    "/auth/oauth2/login",
+    {
+      provider: "GOOGLE",
+      code,
+      state,
+    },
+  );
 
   console.log("access Token 발급: ", response);
 
-  return response.data;
+  return response;
 }
 
-export const useGoogleLogin = (params: ReadonlyURLSearchParams) => {
+export const useGoogleLogin = ({
+  params,
+  showToast,
+}: {
+  params: ReadonlyURLSearchParams;
+  showToast: (comment: string, status: string) => void;
+}) => {
   const { navigate } = useCustomRouter();
 
   return useMutation<LoginSuccessType, LoginErrorType>({
     mutationKey: ["GoogleLogin"],
     mutationFn: () => getGoogleAccessToken(params),
     onSuccess: (data) => handleLoginSuccess(data, navigate),
-    onError: (e) => handleLoginError(e, navigate),
+    onError: (e) => handleLoginError(e, navigate, showToast),
   });
 };

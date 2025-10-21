@@ -22,20 +22,27 @@ export default function KakaoLoginButton({
     },
     onError: (e: LoginErrorType) => {
       setShowToast({
-        status: e.status,
+        status: String(e.status),
         comment: e.response.data.message,
         state: true,
       });
       if (e.response.data.errorCode === "TPT-003") {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           navigate({ path: "/auth/termsAgreement", type: "push" });
         }, 1500);
+        return () => clearTimeout(timer);
+      } else if (e.response.data.errorCode === "OAUTH-003") {
+        const timer = setTimeout(() => {
+          navigate({ path: "/auth/login", type: "push" });
+        }, 1500);
+        return () => clearTimeout(timer);
       }
     },
   });
 
   const handleClick = () => {
     kakaoMutation.mutate();
+    localStorage.setItem("recentPlatform", "Kakao");
   };
 
   return (

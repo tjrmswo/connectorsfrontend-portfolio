@@ -1,75 +1,3 @@
-// "use client";
-
-// import { useState, useRef, useMemo, useCallback, lazy } from "react";
-// import { useCustomRouter } from "@/shared/ui";
-// import { useSplashAnimation } from "@/features/splash";
-// import { useOnboarding } from "@/features/splash";
-// import { createSliderSettings } from "@/features/splash";
-// import { SLIDER_CONFIG } from "@/features/splash";
-// import { SplashIntro } from "@/features/splash";
-// import type Slider from "react-slick";
-
-// // ✅ 온보딩 슬라이더를 lazy load
-// const OnboardingSlider = lazy(() =>
-//   import("@/features/splash").then((mod) => ({
-//     default: mod.OnboardingSlider,
-//   })),
-// );
-
-// export default function SplashScreen() {
-//   const [slideIndex, setSlideIndex] = useState<number>(0);
-//   const sliderRef = useRef<Slider | null>(null);
-
-//   const { navigate } = useCustomRouter();
-//   const { showIntro, isShowing, showSlides } = useSplashAnimation();
-//   const { data: onBoardingData } = useOnboarding();
-
-//   // 슬라이더 설정 메모이제이션
-//   const settings = useMemo(() => createSliderSettings(setSlideIndex), []);
-
-//   // 이벤트 핸들러들 메모이제이션
-//   const handleNext = useCallback(() => {
-//     if (sliderRef.current && slideIndex < SLIDER_CONFIG.LAST_SLIDE_INDEX) {
-//       sliderRef.current.slickNext();
-//     }
-//   }, [slideIndex]);
-
-//   const goLastOnBoarding = useCallback(() => {
-//     sliderRef.current?.slickGoTo(SLIDER_CONFIG.LAST_SLIDE_INDEX);
-//     setSlideIndex(SLIDER_CONFIG.LAST_SLIDE_INDEX);
-//   }, []);
-
-//   const routingHome = useCallback(() => {
-//     navigate({ path: "/home", type: "push" });
-//   }, [navigate]);
-
-//   const handleButtonClick = useCallback(() => {
-//     if (slideIndex >= SLIDER_CONFIG.LAST_SLIDE_INDEX) {
-//       routingHome();
-//     } else {
-//       handleNext();
-//     }
-//   }, [slideIndex, routingHome, handleNext]);
-
-//   return (
-//     <div className="flex h-full w-full items-center justify-center p-[5px]">
-//       {/* 인트로 화면 */}
-//       {showIntro && <SplashIntro isShowing={isShowing} />}
-//       {/* 온보딩 슬라이드 */}
-//       {showSlides && onBoardingData && (
-//         <OnboardingSlider
-//           onBoardingData={onBoardingData}
-//           slideIndex={slideIndex}
-//           sliderRef={sliderRef}
-//           settings={settings}
-//           onSkip={goLastOnBoarding}
-//           onButtonClick={handleButtonClick}
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
 "use client";
 
 import Image from "next/image";
@@ -78,8 +6,25 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import apiInstance from "@/shared/api/apiInstance";
 import { onBoardingDataType } from "@/entities/splash/type";
-import { useCustomRouter } from "@/shared/ui";
+import { CommonToast, useCustomRouter } from "@/shared/ui";
 import { QUERY_CONFIG } from "@/features/splash";
+import { useAnimatedToast } from "@/features/auth";
+interface CheckAuthErrorType {
+  response: {
+    data: {
+      message: string;
+      errorCode: string;
+    };
+  };
+  status: number;
+}
+
+interface CheckAuthType {
+  memberId: number;
+  nickname: string;
+  imagePath: string;
+  email: string;
+}
 
 export default function SplashScreen() {
   const [showIntro, setShowIntro] = useState<boolean>(true);
@@ -89,6 +34,7 @@ export default function SplashScreen() {
   const sliderRef = useRef<Slider | null>(null);
 
   const { navigate } = useCustomRouter();
+  const { toast, shouldRender, showToast } = useAnimatedToast(1500);
 
   useEffect(() => {
     setIsShowing(true);
@@ -115,19 +61,18 @@ export default function SplashScreen() {
   const handleButtonClick = () => {
     if (slideIndex >= 4) {
       // 커넥터즈 시작 또는 홈 이동
-      routingHome();
+      routingLogin();
     } else {
       handleNext();
     }
   };
 
   const goLastOnBoarding = () => {
-    sliderRef.current?.slickGoTo(4);
-    setSlideIndex(4);
+    navigate({ path: "/auth/login", type: "push" });
   };
 
-  const routingHome = () => {
-    navigate({ path: "/home", type: "push" });
+  const routingLogin = () => {
+    navigate({ path: "/auth/login", type: "push" });
   };
 
   const settings = {
@@ -141,10 +86,60 @@ export default function SplashScreen() {
       setSlideIndex(newIndex),
   };
 
+  const {
+    data: checkAuth,
+    isSuccess: checkAuthSuccess,
+    error: checkAuthError,
+    isError: authIsError,
+  } = useQuery<CheckAuthType, CheckAuthErrorType>({
+    queryKey: ["checkAuthLayer"],
+    queryFn: async () => {
+      const response = await apiInstance.post("/auth/token/refresh");
+      return response.data; // 데이터만 반환
+    },
+    staleTime: QUERY_CONFIG.STALE_TIME,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    retry: 0,
+  });
+
+  // 컴포넌트에서 사용
+  useEffect(() => {
+    if (checkAuthSuccess) {
+      console.log("권한 체크 성공!");
+      setTimeout(() => {
+        navigate({ path: "/home", type: "push" });
+      }, 2200);
+    }
+
+    if (authIsError) {
+      if (checkAuthError.status === 403) {
+        showToast(
+          checkAuthError?.response?.data?.message || "에러가 발생했습니다",
+          String(checkAuthError?.status) || "500",
+        );
+      }
+      if (
+        checkAuthError.status === 403 &&
+        checkAuthError.response.data.errorCode === "ATH-002"
+      ) {
+        const timer = setTimeout(() => {
+          navigate({ path: "/auth/termsAgreement", type: "push" });
+        }, 2200);
+
+        return () => clearTimeout(timer);
+      }
+      console.log("권한 체크 실패:", checkAuthError?.response.data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkAuthSuccess, authIsError, checkAuth]);
+
   const { data: onBoardingData } = useQuery<onBoardingDataType[]>({
     queryKey: ["onBoarding"],
     queryFn: async () => {
       const response = await apiInstance.get("/onboarding/info");
+      console.log("온보딩 데이터: ", response.data);
       return response.data;
     },
     staleTime: QUERY_CONFIG.STALE_TIME,
@@ -223,6 +218,17 @@ export default function SplashScreen() {
               </span>
             </button>
           </div>
+        </div>
+      )}
+      {shouldRender && (
+        <div
+          className={`absolute top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-[0px] opacity-100"
+              : "-translate-y-[-20px] opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
         </div>
       )}
     </div>

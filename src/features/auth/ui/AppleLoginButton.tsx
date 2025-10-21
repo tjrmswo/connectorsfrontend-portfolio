@@ -3,8 +3,16 @@ import React from "react";
 
 export default function AppleLoginButton() {
   // redirectPath props 설정해야함 KakaoLoginButton 컴포넌트 참고
+
+  const handleClick = () => {
+    // appleMutation.mutate();
+    localStorage.setItem("recentPlatform", "Apple");
+  };
   return (
-    <button className="flex h-[50px] w-[21rem] cursor-pointer flex-row items-center justify-around rounded-[0.3rem] border-0 bg-[#000] bg-contain bg-center bg-no-repeat p-[10px] font-[Pretendard] text-[15px] font-[500] text-[white]">
+    <button
+      className="flex h-[50px] w-[21rem] cursor-pointer flex-row items-center justify-around rounded-[0.3rem] border-0 bg-[#000] bg-contain bg-center bg-no-repeat p-[10px] font-[Pretendard] text-[15px] font-[500] text-[white]"
+      onClick={handleClick}
+    >
       {/* 애플 로그인 api연동 필요 */}
       <Image
         src={"/images/login/appleLogo.png"}

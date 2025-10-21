@@ -1,12 +1,43 @@
 "use client";
-import { useCustomRouter } from "@/shared/ui";
+import { LoginErrorType, LoginSuccessType } from "@/entities/auth";
+import { useAnimatedToast } from "@/features/auth";
+import { apiInstance } from "@/shared/api";
+import { CommonToast, useCustomRouter } from "@/shared/ui";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
 
 export default function SignupFinish() {
   const { navigate } = useCustomRouter();
 
-  const goHome = () => navigate({ path: "/home", type: "push" });
+  const { toast, shouldRender } = useAnimatedToast(1500);
+
+  const goHome = useMutation<LoginSuccessType, LoginErrorType>({
+    mutationKey: ["upgradeAuth"],
+    mutationFn: async () => {
+      const response: LoginSuccessType = await apiInstance.post(
+        "/auth/token/refresh",
+      );
+
+      console.log(response);
+
+      return response;
+    },
+    onSuccess: (data: LoginSuccessType) => {
+      // console.log(data);
+      if (data.status === 200) {
+        const term = setTimeout(() => {
+          navigate({ path: "/", type: "push" });
+        }, 1700);
+
+        return () => clearTimeout(term);
+      }
+    },
+    onError: (e) => {
+      console.log("", e);
+    },
+  });
+
   return (
     <div className="flex size-full flex-col items-center justify-between gap-[2rem] p-[6px]">
       <div />
@@ -35,10 +66,22 @@ export default function SignupFinish() {
 
       <button
         className="relative bottom-[2rem] flex h-[3rem] w-4/5 cursor-pointer items-center justify-center gap-[12px] rounded-[0.5rem] bg-[#292C33] text-[18px] leading-[23px] text-[#fff] text-[500]"
-        onClick={goHome}
+        onClick={() => goHome.mutate()}
       >
         커넥터즈 시작하기
       </button>
+
+      {shouldRender && (
+        <div
+          className={`fixed top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-[0px] opacity-100"
+              : "-translate-y-[-20px] opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
+        </div>
+      )}
     </div>
   );
 }

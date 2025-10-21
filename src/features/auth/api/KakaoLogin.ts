@@ -50,24 +50,33 @@ export async function kakaoLoginMutationFn({
 async function getKakaoAccessToken(params: ReadonlyURLSearchParams) {
   const [code, state] = ["code", "state"].map((d) => params.get(`${d}`));
 
-  const response = await apiInstance.post("/auth/oauth2/login", {
-    provider: "KAKAO",
-    code,
-    state,
-  });
+  const response: LoginSuccessType = await apiInstance.post(
+    "/auth/oauth2/login",
+    {
+      provider: "KAKAO",
+      code,
+      state,
+    },
+  );
 
   console.log("access Token 발급: ", response);
 
-  return response.data;
+  return response;
 }
 
-export const useKakaoLogin = (params: ReadonlyURLSearchParams) => {
+export const useKakaoLogin = ({
+  params,
+  showToast,
+}: {
+  params: ReadonlyURLSearchParams;
+  showToast: (comment: string, status: string) => void;
+}) => {
   const { navigate } = useCustomRouter();
 
   return useMutation<LoginSuccessType, LoginErrorType>({
     mutationKey: ["KakaoLogin"],
     mutationFn: () => getKakaoAccessToken(params),
     onSuccess: (data) => handleLoginSuccess(data, navigate),
-    onError: (e) => handleLoginError(e, navigate),
+    onError: (e) => handleLoginError(e, navigate, showToast),
   });
 };

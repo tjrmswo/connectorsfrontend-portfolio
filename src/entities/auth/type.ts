@@ -5,7 +5,7 @@ export interface LoginType {
   setShowToast: React.Dispatch<
     SetStateAction<{
       comment: string;
-      status: number;
+      status: string;
       state: boolean;
     }>
   >;
@@ -20,7 +20,7 @@ interface Response {
 }
 
 interface Config {
-  baseURL: string;
+  baseURL: string | undefined;
   data: string;
   method: string;
 }
@@ -34,8 +34,9 @@ export interface LoginErrorType {
 }
 
 export interface LoginSuccessType {
-  redirectPath: string;
-  new: boolean;
+  config: Config;
+  data: { redirectPath: string; new: boolean };
+  status: number;
 }
 
 export interface TermAgreementType {

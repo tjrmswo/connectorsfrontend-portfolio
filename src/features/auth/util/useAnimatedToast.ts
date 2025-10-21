@@ -1,40 +1,46 @@
 // hooks/useAnimatedToast.ts
 import { useState, useCallback } from "react";
 
-interface ToastState {
+export interface ToastState {
   comment: string;
-  status: number;
+  status: string;
   state: boolean;
 }
 
 export const useAnimatedToast = (duration: number) => {
   const [toast, setToast] = useState<ToastState>({
     comment: "",
-    status: 0,
+    status: "",
     state: false,
   });
   const [shouldRender, setShouldRender] = useState(false);
 
   const showToast = useCallback(
-    (comment: string, status: number) => {
+    (comment: string, status: string) => {
       // 1. DOM에 추가
       setShouldRender(true);
       setToast({ comment, status, state: false });
 
       // 2. 약간의 딜레이 후 애니메이션 시작 (나타남)
-      setTimeout(() => {
+      const startTimer = setTimeout(() => {
         setToast((prev) => ({ ...prev, state: true }));
       }, 10);
 
       // 3. duration 후 사라지는 애니메이션
-      setTimeout(() => {
+      const disappearTimer = setTimeout(() => {
         setToast((prev) => ({ ...prev, state: false }));
       }, duration);
 
       // 4. 애니메이션 종료 후 DOM에서 제거
-      setTimeout(() => {
+      const animationStopTimer = setTimeout(() => {
         setShouldRender(false);
       }, duration + 300); // transition duration 고려
+
+      return () => {
+        clearTimeout(startTimer);
+        clearTimeout(disappearTimer);
+        clearTimeout(animationStopTimer);
+      };
     },
     [duration],
   );
