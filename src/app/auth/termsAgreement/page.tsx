@@ -1,21 +1,11 @@
 "use client";
 import { TermAgreementType } from "@/entities/auth";
-import { CommonToast, useCustomRouter } from "@/shared/ui";
-import { apiInstance } from "@/shared/api";
+import { CommonToast, useCustomRouter, apiInstance } from "@/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useAnimatedToast } from "@/features/auth";
-import { QUERY_CONFIG } from "@/features/splash";
-
-interface TermAgreementErrorType {
-  status: number;
-  response: {
-    data: {
-      message: string;
-    };
-  };
-}
+import { TermAgreementErrorType, useAnimatedToast } from "@/features/auth";
+import { QUERY_CONFIG } from "@/shared";
 
 export default function TermsAgreement() {
   const [isReady, setIsReady] = useState<boolean>(false);

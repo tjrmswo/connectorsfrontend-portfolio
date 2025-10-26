@@ -4,10 +4,13 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
-import apiInstance from "@/shared/api/apiInstance";
 import { onBoardingDataType } from "@/entities/splash/type";
-import { CommonToast, useCustomRouter } from "@/shared/ui";
-import { QUERY_CONFIG } from "@/features/splash";
+import {
+  CommonToast,
+  useCustomRouter,
+  QUERY_CONFIG,
+  apiInstance,
+} from "@/shared";
 import { useAnimatedToast } from "@/features/auth";
 interface CheckAuthErrorType {
   response: {

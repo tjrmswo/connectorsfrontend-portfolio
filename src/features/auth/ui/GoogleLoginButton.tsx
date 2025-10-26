@@ -1,8 +1,11 @@
-import { googleLoginMutationFn } from "@/features/auth";
-import { LoginErrorType, LoginType } from "@/entities/auth";
+import {
+  googleLoginMutationFn,
+  LoginErrorType,
+  LoginType,
+} from "@/features/auth";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import { useCustomRouter } from "@/shared/ui";
+import { useCustomRouter } from "@/shared";
 
 export default function GoogleLoginButton({
   redirectPath,

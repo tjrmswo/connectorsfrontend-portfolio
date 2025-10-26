@@ -1,11 +1,6 @@
 // hooks/useAnimatedToast.ts
 import { useState, useCallback } from "react";
-
-export interface ToastState {
-  comment: string;
-  status: string;
-  state: boolean;
-}
+import { ToastState } from "@/features/auth";
 
 export const useAnimatedToast = (duration: number) => {
   const [toast, setToast] = useState<ToastState>({

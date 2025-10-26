@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiInstance } from "@/shared/api";
+import { apiInstance } from "@/shared";
 import { OnBoardingDataType, QUERY_CONFIG } from "@/features/splash";
 
 export const useOnboarding = () => {

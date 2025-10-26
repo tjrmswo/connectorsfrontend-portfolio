@@ -1,8 +1,10 @@
 "use client";
-import { LoginErrorType, LoginSuccessType } from "@/entities/auth";
-import { useAnimatedToast } from "@/features/auth";
-import { apiInstance } from "@/shared/api";
-import { CommonToast, useCustomRouter } from "@/shared/ui";
+import {
+  useAnimatedToast,
+  LoginErrorType,
+  LoginSuccessType,
+} from "@/features/auth";
+import { CommonToast, useCustomRouter, apiInstance } from "@/shared";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
@@ -27,7 +29,7 @@ export default function SignupFinish() {
       // console.log(data);
       if (data.status === 200) {
         const term = setTimeout(() => {
-          navigate({ path: "/", type: "push" });
+          navigate({ path: "/home", type: "push" });
         }, 1700);
 
         return () => clearTimeout(term);

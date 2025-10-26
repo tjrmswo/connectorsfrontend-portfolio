@@ -1,4 +1,4 @@
-import { useCustomRouter } from "@/shared/ui";
+import { useCustomRouter } from "@/shared";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
 

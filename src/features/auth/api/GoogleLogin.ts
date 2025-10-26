@@ -1,11 +1,11 @@
-import { LoginSuccessType, LoginErrorType } from "@/entities/auth";
 import {
   generateVerifier,
   handleLoginError,
   handleLoginSuccess,
+  LoginSuccessType,
+  LoginErrorType,
 } from "@/features/auth";
-import { apiInstance } from "@/shared/api";
-import { useCustomRouter } from "@/shared/ui";
+import { apiInstance, useCustomRouter } from "@/shared";
 import { useMutation } from "@tanstack/react-query";
 import { ReadonlyURLSearchParams } from "next/navigation";
 

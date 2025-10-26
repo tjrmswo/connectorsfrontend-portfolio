@@ -1,5 +1,5 @@
 "use client";
-import { CSSLoader, CommonToast } from "@/shared/ui";
+import { CSSLoader, CommonToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAnimatedToast, useKakaoLogin } from "@/features/auth";
