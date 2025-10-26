@@ -1,16 +1,31 @@
 "use client";
-import { TermAgreementType } from "@/entities/auth/type";
-import { useCustomRouter } from "@/shared";
-import apiInstance from "@/shared/api/apiInstance";
+import { TermAgreementType } from "@/entities/auth";
+import { CommonToast, useCustomRouter, apiInstance } from "@/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { TermAgreementErrorType, useAnimatedToast } from "@/features/auth";
+import { QUERY_CONFIG } from "@/shared";
 
 export default function TermsAgreement() {
+  const [isReady, setIsReady] = useState<boolean>(false);
   const [termState, setTermState] = useState<TermAgreementType[]>([]);
   const { navigate } = useCustomRouter();
+  const { toast, shouldRender, showToast } = useAnimatedToast(1000);
 
-  const { data: _termAgreementData } = useQuery<TermAgreementType[]>({
+  useEffect(() => {
+    // CSS 로드를 위한 약간의 딜레이
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const termAgreementData = useQuery<
+    TermAgreementType[],
+    TermAgreementErrorType
+  >({
     queryKey: ["termAgreement"],
     queryFn: async () => {
       const response =
@@ -25,7 +40,25 @@ export default function TermsAgreement() {
       setTermState(mappingData);
       return response.data;
     },
+    staleTime: QUERY_CONFIG.STALE_TIME,
+    refetchOnWindowFocus: true,
+    retry: 0,
   });
+
+  useEffect(() => {
+    if (termAgreementData.isError && termAgreementData.error) {
+      const { message } = termAgreementData.error.response.data;
+      const { status } = termAgreementData.error;
+      console.log(message, status);
+      showToast(message, String(status));
+      const login = setTimeout(
+        () => navigate({ path: "/auth/login", type: "push" }),
+        2000,
+      );
+      return () => clearTimeout(login);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [termAgreementData.error]);
 
   const terms = useMutation({
     mutationKey: ["termAgree"],
@@ -34,7 +67,7 @@ export default function TermsAgreement() {
       checked,
     }: {
       termsIdList: number;
-      checked: boolean;
+      checked: boolean | undefined;
     }) => {
       const response = await apiInstance.get(
         checked ? "/terms/agree" : "/terms/withdraw",
@@ -65,16 +98,11 @@ export default function TermsAgreement() {
     });
 
     setTermState(findElement);
-    terms.mutate({ termsIdList: termId, checked: e.target.checked });
   };
 
   const totalAgree = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.currentTarget;
     const stateEntireChange = termState.map((data) => {
-      terms.mutate({
-        termsIdList: data.termsId,
-        checked: checked ? true : false,
-      });
       return { ...data, termsId: data.termsId, state: checked ? true : false };
     });
 
@@ -82,20 +110,45 @@ export default function TermsAgreement() {
     setTermState(stateEntireChange);
   };
 
-  const moveNextStep = termState.every((item) => item.state);
+  const allAgree = termState.every((item) => item.state);
 
-  const handleNextClick = () => {
+  const moveNextStep = termState.every((item) => {
+    if (item.required) {
+      return item.state === true;
+    }
+    return true;
+  });
+
+  const handleNextClick = async () => {
     if (moveNextStep) {
-      navigate({ path: "/auth/signupFinish", type: "push" });
+      try {
+        const promises = termState.map((term) =>
+          terms.mutateAsync({ termsIdList: term.termsId, checked: term.state }),
+        );
+
+        await Promise.all(promises);
+
+        navigate({ path: "/auth/signupFinish", type: "push" });
+      } catch (error) {
+        console.error("약관 동의 중 오류 발생:", error);
+        // 에러 처리
+      }
     }
   };
-  // useEffect(() => {
-  //   console.log(moveNextStep());
-  // }, [termState]);
+  useEffect(() => {
+    console.log(termState);
+  }, [termState]);
 
   return (
-    <div className="flex size-full flex-col justify-start gap-[2rem] p-[6px]">
-      <header className="flex h-[2rem] w-full flex-row justify-between border-b border-b-[#E9E9E9] px-[6px] py-[0.5rem] text-start">
+    <div
+      className={`flex size-full flex-col justify-start gap-6 p-[6px] transition-opacity duration-300 ${
+        isReady ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <header
+        // className="relative bottom-[2.3rem] w-full text-start"
+        className="mt-7 flex h-[2.1rem] w-full flex-row justify-between border-b border-b-[#E9E9E9] px-6 pb-10 text-start"
+      >
         <ChevronLeft
           width={30}
           height={30}
@@ -104,10 +157,10 @@ export default function TermsAgreement() {
             navigate({ path: "/auth/login", type: "push" });
           }}
         />
-        <span className="text-[1rem] font-[600] leading-[26px]">회원가입</span>
+        <span className="text-[1rem] font-[600]">회원가입</span>
         <div />
       </header>
-      <h2 className="mb-[1rem] px-[6px] text-[1.5rem]">
+      <h2 className="mb-1 px-[6px] font-[Inter] text-[1.5rem] font-[700] text-[#222]">
         더 나은 서비스 사용을 위해 <br /> 이용약관에 동의해주세요.
       </h2>
 
@@ -117,7 +170,7 @@ export default function TermsAgreement() {
             className="mr-[0.5rem]"
             type="checkbox"
             onChange={(e) => totalAgree(e)}
-            checked={moveNextStep}
+            checked={allAgree}
           />
           <span>네, 모두 동의합니다.</span>
         </div>
@@ -138,7 +191,7 @@ export default function TermsAgreement() {
                 <span className="inline">
                   {data.required ? "(필수)" : "(선택)"} {data.title}
                 </span>
-                <span className="ml-auto cursor-pointer border-b-2 border-b-transparent px-2 py-1 text-[#B8BEC2] transition duration-300 hover:border-b-[#B8BEC2]">
+                <span className="ml-auto cursor-pointer border-b-2 border-b-transparent px-2 text-[#B8BEC2] transition duration-300 hover:border-b-[#B8BEC2]">
                   보기
                 </span>
               </div>
@@ -162,6 +215,17 @@ export default function TermsAgreement() {
           <br /> 서비스 시용이 제한됩니다.
         </p>
       </footer>
+      {shouldRender && (
+        <div
+          className={`fixed left-1/2 top-[2rem] -translate-x-1/2 rounded-lg border border-[#f4f4f4] bg-white shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-[0px] opacity-100"
+              : "-translate-y-[-20px] opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
+        </div>
+      )}
     </div>
   );
 }

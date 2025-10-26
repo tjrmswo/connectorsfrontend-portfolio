@@ -1,25 +1,39 @@
 "use client";
 import {
-  AppleLoginButton,
-  GoogleLoginButton,
-  KakakoLoginButton,
   LoginHeader,
+  LoginToast,
+  SocialLoginList,
+  useAnimatedToast,
 } from "@/features/auth";
-import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { CommonToast } from "@/shared";
-import { useState } from "react";
+import { useLocalStorage, useCustomRouter } from "@/shared";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Login() {
-  const [showToast, setShowToast] = useState({
-    comment: "",
-    status: 0,
-    state: false,
-  });
-  const params = useSearchParams();
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const { toast, shouldRender, setToast } = useAnimatedToast(1500);
+  const { value: recentPlatform } = useLocalStorage("recentPlatform");
+  const { navigate } = useCustomRouter();
+
+  const handleSkipLogin = useCallback(() => {
+    navigate({ path: "/home", type: "push" });
+  }, [navigate]);
+
+  useEffect(() => {
+    // CSS 로드를 위한 약간의 딜레이
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-around p-[5px]">
+    <div
+      className={`flex h-full w-full flex-col items-center justify-between p-[5px] transition-opacity duration-300 ${
+        isReady ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <LoginHeader />
       <Image
         className="relative bottom-[1rem] w-3/5 object-contain"
@@ -29,36 +43,14 @@ export default function Login() {
         height={150}
       />
 
-      <div className="mb-[5rem] flex h-auto w-full flex-col items-center justify-between gap-[6px]">
-        <KakakoLoginButton
-          redirectPath={params.get("redirectPath")}
-          setShowToast={setShowToast}
-        />
-        <GoogleLoginButton
-          redirectPath={params.get("redirectPath")}
-          setShowToast={setShowToast}
-        />
-        {/* 애플 로그인 */}
-        <AppleLoginButton />
-      </div>
+      <SocialLoginList
+        redirectPath="/home"
+        setToast={setToast}
+        recentPlatform={recentPlatform}
+        onSkipLogin={handleSkipLogin}
+      />
 
-      <button
-        onClick={() => {
-          setShowToast({ ...showToast, state: true });
-          setTimeout(() => setShowToast({ ...showToast, state: false }), 1500);
-        }}
-      >
-        test
-      </button>
-
-      {showToast.state && (
-        <div className="fixed top-[2rem] translate-y-[10px] rounded-[6px] shadow-xl transition-all duration-1000 ease-in-out">
-          <CommonToast
-            content={showToast.comment}
-            status={String(showToast.status)}
-          />
-        </div>
-      )}
+      <LoginToast shouldRender={shouldRender} toast={toast} />
     </div>
   );
 }

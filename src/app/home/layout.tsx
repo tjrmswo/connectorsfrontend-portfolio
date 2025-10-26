@@ -1,6 +1,4 @@
-import "@/app/globals.css";
-import { HomeContainer } from "@/app/home/styes";
-import HomeWrapper from "@app/home/shared/components/homeWrapper";
+import { BottomTabNav } from "@/widgets/bottomTab";
 
 export default function HomeLayout({
   children,
@@ -8,8 +6,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <HomeContainer>
-      <HomeWrapper>{children}</HomeWrapper>
-    </HomeContainer>
+    <div className="flex h-full w-[28rem] flex-col items-center">
+      {children}
+      <BottomTabNav />
+    </div>
   );
 }

@@ -1,57 +1,44 @@
 "use client";
-import { LoginSuccessType, LoginErrorType } from "@/entities/auth/type";
-import { CSSLoader, useCustomRouter } from "@/shared";
-import instance from "@/shared/api/apiInstance";
-import { useMutation } from "@tanstack/react-query";
+import { CSSLoader, CommonToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useAnimatedToast, useKakaoLogin } from "@/features/auth";
 
 export default function Provider() {
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const { toast, shouldRender, showToast } = useAnimatedToast(1500);
   const params = useSearchParams();
-
-  const { navigate } = useCustomRouter();
-
-  const Login = useMutation<LoginSuccessType, LoginErrorType>({
-    mutationKey: ["KakaoLogin"],
-    mutationFn: async () => {
-      const [code, state] = ["code", "state"].map((d) => params.get(`${d}`));
-
-      const response = await instance.post("/auth/oauth2/login", {
-        provider: "KAKAO",
-        code,
-        state,
-      });
-
-      console.log("access Token 발급: ", response);
-
-      return response.data;
-    },
-    onSuccess: (data: { new: boolean; redirectPath: string }) => {
-      // navigate({ path: `${data.redirectPath}`, type: "push" });
-      const loginTimer = setTimeout(() => {
-        navigate({ path: `${data.redirectPath}`, type: "push" });
-      }, 1500);
-      return () => clearTimeout(loginTimer);
-    },
-    onError: (e) => {
-      console.log(
-        "에러 상태: ",
-        e.response.data.errorCode,
-        e.response.data.message,
-      );
-      if (e.response.data.errorCode === "ATH-002") {
-        const termsTimer = setTimeout(() => {
-          navigate({ path: "/auth/termsAgreement", type: "push" });
-        }, 2500);
-        return () => clearTimeout(termsTimer);
-      }
-    },
-  });
+  const loginMutation = useKakaoLogin({ params, showToast });
 
   useEffect(() => {
-    Login.mutate();
+    // CSS 로드를 위한 약간의 딜레이
+    const timer = setTimeout(() => {
+      setIsReady(true);
+      loginMutation.mutate();
+    }, 100);
+
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <CSSLoader />;
+  return (
+    <div
+      className={`flex h-full w-full flex-col items-center transition-opacity duration-300 ${
+        isReady ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <CSSLoader />
+      {shouldRender && (
+        <div
+          className={`fixed left-1/2 top-[2rem] -translate-x-1/2 rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-5 opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
+        </div>
+      )}
+    </div>
+  );
 }

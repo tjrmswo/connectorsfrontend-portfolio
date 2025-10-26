@@ -2,13 +2,32 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
-import apiInstance from "@/shared/api/apiInstance";
-import { onBoardingDataType } from "@/entities/boarding/type";
-import { useCustomRouter } from "@/shared";
+import { onBoardingDataType } from "@/entities/splash/type";
+import {
+  CommonToast,
+  useCustomRouter,
+  QUERY_CONFIG,
+  apiInstance,
+} from "@/shared";
+import { useAnimatedToast } from "@/features/auth";
+interface CheckAuthErrorType {
+  response: {
+    data: {
+      message: string;
+      errorCode: string;
+    };
+  };
+  status: number;
+}
+
+interface CheckAuthType {
+  memberId: number;
+  nickname: string;
+  imagePath: string;
+  email: string;
+}
 
 export default function SplashScreen() {
   const [showIntro, setShowIntro] = useState<boolean>(true);
@@ -18,6 +37,7 @@ export default function SplashScreen() {
   const sliderRef = useRef<Slider | null>(null);
 
   const { navigate } = useCustomRouter();
+  const { toast, shouldRender, showToast } = useAnimatedToast(1500);
 
   useEffect(() => {
     setIsShowing(true);
@@ -44,47 +64,91 @@ export default function SplashScreen() {
   const handleButtonClick = () => {
     if (slideIndex >= 4) {
       // 커넥터즈 시작 또는 홈 이동
-      routingHome();
+      routingLogin();
     } else {
       handleNext();
     }
   };
 
   const goLastOnBoarding = () => {
-    sliderRef.current?.slickGoTo(4);
-    setSlideIndex(4);
+    navigate({ path: "/auth/login", type: "push" });
   };
 
-  const routingHome = () => {
-    navigate({ path: "/home", type: "push" });
+  const routingLogin = () => {
+    navigate({ path: "/auth/login", type: "push" });
   };
-
-  function SampleNextArrow() {
-    return <div style={{ display: "block", background: "red" }} />;
-  }
-
-  function SamplePrevArrow() {
-    return <div style={{ display: "block", background: "green" }} />;
-  }
 
   const settings = {
     dots: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     infinite: false,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    arrows: false,
     afterChange: (current: number) => setSlideIndex(current),
     beforeChange: (_oldIndex: number, newIndex: number) =>
       setSlideIndex(newIndex),
   };
 
+  const {
+    data: checkAuth,
+    isSuccess: checkAuthSuccess,
+    error: checkAuthError,
+    isError: authIsError,
+  } = useQuery<CheckAuthType, CheckAuthErrorType>({
+    queryKey: ["checkAuthLayer"],
+    queryFn: async () => {
+      const response = await apiInstance.post("/auth/token/refresh");
+      return response.data; // 데이터만 반환
+    },
+    staleTime: QUERY_CONFIG.STALE_TIME,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    retry: 0,
+  });
+
+  // 컴포넌트에서 사용
+  useEffect(() => {
+    if (checkAuthSuccess) {
+      console.log("권한 체크 성공!");
+      setTimeout(() => {
+        navigate({ path: "/home", type: "push" });
+      }, 2200);
+    }
+
+    if (authIsError) {
+      if (checkAuthError.status === 403) {
+        showToast(
+          checkAuthError?.response?.data?.message || "에러가 발생했습니다",
+          String(checkAuthError?.status) || "500",
+        );
+      }
+      if (
+        checkAuthError.status === 403 &&
+        checkAuthError.response.data.errorCode === "ATH-002"
+      ) {
+        const timer = setTimeout(() => {
+          navigate({ path: "/auth/termsAgreement", type: "push" });
+        }, 2200);
+
+        return () => clearTimeout(timer);
+      }
+      console.log("권한 체크 실패:", checkAuthError?.response.data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkAuthSuccess, authIsError, checkAuth]);
+
   const { data: onBoardingData } = useQuery<onBoardingDataType[]>({
     queryKey: ["onBoarding"],
     queryFn: async () => {
       const response = await apiInstance.get("/onboarding/info");
+      console.log("온보딩 데이터: ", response.data);
       return response.data;
     },
+    staleTime: QUERY_CONFIG.STALE_TIME,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   return (
@@ -99,6 +163,8 @@ export default function SplashScreen() {
             alt="스플래시 스크린"
             width={100}
             height={150}
+            fetchPriority="high"
+            loading="lazy"
           />
         </div>
       )}
@@ -106,7 +172,7 @@ export default function SplashScreen() {
       {/* Slides */}
       {showSlides && (
         <div className="show flex h-full w-full flex-col items-center justify-between gap-[3rem]">
-          <div className="w-7/10 flex flex-row justify-end pt-[2rem]">
+          <div className="mr-[1rem] flex w-[28rem] flex-row justify-end pt-[2rem]">
             <button
               className="text-bold cursor-pointer border-none bg-[white] text-[1rem] font-[600]"
               onClick={goLastOnBoarding}
@@ -125,15 +191,23 @@ export default function SplashScreen() {
                 className="flex h-[28rem] flex-col text-center"
                 key={data.id}
               >
-                <h2 className="mb-[1.5rem] text-[#222]">{data.title}</h2>
-                <p className="mb-[3rem] text-[#686868]">{data.content}</p>
-                <Image
-                  className="w-full object-contain"
-                  src={"/images/home/banner01.png"}
-                  alt="이미지 1"
-                  width={300}
-                  height={200}
-                />
+                <h2 className="text-center align-middle font-[Inter] text-[20px] text-xl font-bold leading-relaxed text-[#222]">
+                  {data.title}
+                </h2>
+                <p className="mb-[2rem] text-center align-middle font-[Pretendard] text-[#686868]">
+                  {data.content}
+                </p>
+
+                <div className="relative h-[300px] w-full">
+                  <Image
+                    className="object-contain"
+                    src={`https://connecting-road-dev.s3.ap-northeast-2.amazonaws.com/${data.imagePath}`}
+                    alt={`온보딩 이미지 ${data.id}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             ))}
           </Slider>
@@ -149,23 +223,17 @@ export default function SplashScreen() {
           </div>
         </div>
       )}
-
-      {/* 애니메이션 keyframes 정의 (tailwind config 또는 global styles에 추가 필요) */}
-      <style jsx global>{`
-        @keyframes slide-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .slide-in {
-          animation-name: slide-in;
-        }
-      `}</style>
+      {shouldRender && (
+        <div
+          className={`absolute top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+            toast.state
+              ? "translate-y-[0px] opacity-100"
+              : "-translate-y-[-20px] opacity-0"
+          }`}
+        >
+          <CommonToast content={toast.comment} status={String(toast.status)} />
+        </div>
+      )}
     </div>
   );
 }
