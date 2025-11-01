@@ -5,7 +5,7 @@ import React from "react";
 export default function LoginHeader() {
   const { navigate } = useCustomRouter();
   return (
-    <header className="relative left-6 top-1 mt-7 w-full text-start">
+    <header className="mt-7 flex w-full flex-row items-center">
       <ChevronLeft
         width={30}
         height={30}

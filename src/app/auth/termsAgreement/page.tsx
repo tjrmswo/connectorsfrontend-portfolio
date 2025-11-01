@@ -1,6 +1,18 @@
 "use client";
 import { TermAgreementType } from "@/entities/auth";
-import { CommonToast, useCustomRouter, apiInstance } from "@/shared";
+import {
+  CommonToast,
+  useCustomRouter,
+  apiInstance,
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -141,7 +153,7 @@ export default function TermsAgreement() {
 
   return (
     <div
-      className={`flex size-full flex-col justify-start gap-6 p-[6px] transition-opacity duration-300 ${
+      className={`flex size-full flex-col justify-start gap-8 p-[6px] transition-opacity duration-300 ${
         isReady ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -191,9 +203,24 @@ export default function TermsAgreement() {
                 <span className="inline">
                   {data.required ? "(필수)" : "(선택)"} {data.title}
                 </span>
-                <span className="ml-auto cursor-pointer border-b-2 border-b-transparent px-2 text-[#B8BEC2] transition duration-300 hover:border-b-[#B8BEC2]">
-                  보기
-                </span>
+                <AlertDialog>
+                  <AlertDialogTrigger className="ml-auto cursor-pointer border-b-2 border-b-transparent px-2 text-[#B8BEC2] transition duration-300 hover:border-b-[#B8BEC2]">
+                    보기
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="font-[Pretendard]">
+                        {data.title}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="font-[Pretendard]">
+                        {data.content}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             ))}
         </div>
@@ -208,7 +235,7 @@ export default function TermsAgreement() {
         </div>
       </main>
       <footer>
-        <p className="w-full text-center text-[0.8rem] text-[#B8BEC2]">
+        <p className="mb-10 w-full text-center text-[0.8rem] text-[#B8BEC2]">
           &lsquo;선택&rsquo;항목에 동의하지 않아도 서비스 이용이 가능합니다.{" "}
           <br /> 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있으며&sbquo;
           동의 거부시 회원체

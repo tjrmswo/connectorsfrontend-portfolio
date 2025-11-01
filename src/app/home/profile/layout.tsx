@@ -1,5 +1,7 @@
+"use client";
 import { ProfileHeaderElement, headerElement } from "@/entities/profile";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function ProfileLayout({
@@ -7,6 +9,18 @@ export default function ProfileLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  const noLayoutPaths = [
+    "/home/profile/career/mycareer",
+    "/home/profile/myprofile",
+  ];
+  const shouldShowLayout = !noLayoutPaths.includes(pathname);
+
+  if (!shouldShowLayout) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex h-full flex-col items-center gap-5 p-6">
       <header className="flex w-[24rem] flex-row justify-between">
