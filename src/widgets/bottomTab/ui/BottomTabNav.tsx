@@ -8,7 +8,7 @@ import React from "react";
 export default function BottomTabNav() {
   const pathname = usePathname().split("/")[2];
   return (
-    <nav className="fixed bottom-0 z-50 flex h-20 w-[22rem] flex-row items-center justify-evenly border-t bg-white shadow-xl">
+    <nav className="fixed bottom-0 z-50 flex h-20 w-[22rem] flex-row items-center justify-evenly border-t border-[#f1f2f2] bg-white shadow-xl">
       <div className="flex w-4/5 flex-row justify-around">
         {tabIcons.map((icon) => {
           return (

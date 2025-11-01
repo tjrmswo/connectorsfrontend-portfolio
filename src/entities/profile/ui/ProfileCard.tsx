@@ -12,7 +12,7 @@ export default function ProfileCard({
       <div className="flex h-16 w-full cursor-pointer flex-row items-center gap-3 rounded-md border border-[#d9d9d9] p-3 transition-colors hover:bg-gray-50">
         <Image
           className="h-12 w-12 flex-shrink-0"
-          src={imageSrc}
+          src={imageSrc} // 실제 이미지 경로로 바꿔줘야 함
           alt="프로필 이미지"
           width={48}
           height={48}
