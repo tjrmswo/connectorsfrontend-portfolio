@@ -1,11 +1,8 @@
-import {
-  googleLoginMutationFn,
-  LoginErrorType,
-  LoginType,
-} from "@/features/auth";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import { useCustomRouter } from "@/shared";
+import { apiInstance, useCustomRouter } from "@/shared";
+import { LoginErrorType, LoginType } from "../model/type";
+import { generateVerifier } from "@/shared";
 
 export default function GoogleLoginButton({
   redirectPath,
@@ -15,11 +12,17 @@ export default function GoogleLoginButton({
 
   const googleMutation = useMutation({
     mutationKey: ["handleGoogle"],
-    mutationFn: () =>
-      googleLoginMutationFn({
+    mutationFn: async () => {
+      const codeVerifier = generateVerifier();
+      const response = await apiInstance.post("/auth/oauth2/url", {
+        provider: "GOOGLE",
+        codeVerifier,
         redirectPath,
         redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
-      }),
+      });
+      console.log(response);
+      return response;
+    },
     onSuccess: (response) => {
       const signInUrl = response.data.url;
       window.location.href = signInUrl;

@@ -25,3 +25,26 @@ export interface OnboardingSlideProps {
 }
 
 export type ViewState = "hidden" | "intro" | "intro-fade" | "slides";
+
+export interface SplashIntroProps {
+  isShowing: boolean;
+}
+
+export interface CheckAuthErrorType {
+  response: {
+    data: {
+      message: string;
+      errorCode: string;
+    };
+  };
+  status: number;
+}
+
+export interface CheckAuthType {
+  redirectPath: string;
+  status: string;
+}
+
+export interface UseCheckAuthProps {
+  showToast: (message: string, status: string) => void;
+}

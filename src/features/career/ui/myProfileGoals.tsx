@@ -1,5 +1,4 @@
 import React from "react";
-import { ProfileGoalsType, checkContentsLength } from "@/features/career";
 import {
   Select,
   SelectContent,
@@ -8,6 +7,8 @@ import {
   SelectValue,
   Textarea,
 } from "@/shared";
+import { ProfileGoalsType } from "../model/type";
+import { checkContentsLength } from "../lib/validation";
 
 export default function MyProfileGoals({
   goal,

@@ -1,8 +1,14 @@
 "use client";
-import { CSSLoader, CommonToast } from "@/shared";
+import { CSSLoader, useAnimatedToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useAnimatedToast, useGoogleLogin } from "@/features/auth";
+import { useGoogleLogin } from "@/features/auth";
+import dynamic from "next/dynamic";
+
+const LoginToast = dynamic(
+  () => import("@/features/auth").then((m) => m.LoginToast),
+  { ssr: false },
+);
 
 export default function Provider() {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -30,18 +36,7 @@ export default function Provider() {
       <div className="flex h-full w-full flex-col items-center">
         <CSSLoader />
         {shouldRender && (
-          <div
-            className={`fixed top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
-              toast.state
-                ? "translate-y-[0px] opacity-100"
-                : "-translate-y-[-20px] opacity-0"
-            }`}
-          >
-            <CommonToast
-              content={toast.comment}
-              status={String(toast.status)}
-            />
-          </div>
+          <LoginToast toast={toast} shouldRender={shouldRender} />
         )}
       </div>
     </div>

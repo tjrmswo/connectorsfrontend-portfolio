@@ -1,6 +1,6 @@
 import { Input } from "@/shared";
 import React from "react";
-import { ProfileTitleType } from "@/features/career";
+import { ProfileTitleType } from "../model/type";
 
 export default function ProfileTitle({
   title,

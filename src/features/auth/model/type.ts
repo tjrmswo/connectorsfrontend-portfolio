@@ -1,3 +1,4 @@
+import { ToastState } from "@/shared";
 import { SetStateAction } from "react";
 
 export interface LoginType {
@@ -35,7 +36,7 @@ export interface LoginErrorType {
 
 export interface LoginSuccessType {
   config: Config;
-  data: { redirectPath: string; new: boolean };
+  data: { redirectPath: string; status: string };
   status: number;
 }
 
@@ -63,12 +64,33 @@ export interface TermAgreementErrorType {
   };
 }
 
-export interface ToastState {
-  comment: string;
-  status: string;
-  state: boolean;
-}
 export interface LoginToastProps {
   toast: ToastState;
   shouldRender: boolean;
+}
+
+export interface GoogleLoginParams {
+  redirectPath: string | null;
+  redirectUri: string | undefined;
+}
+
+export interface SocialLoginListProps {
+  redirectPath: string;
+  setToast: React.Dispatch<SetStateAction<ToastState>>;
+  recentPlatform?: string | undefined | null;
+  onSkipLogin: () => void;
+}
+
+export interface LoginErrorType {
+  config: Config;
+  code: string;
+  message: string;
+  status: number;
+  response: Response;
+}
+
+export interface LoginSuccessType {
+  config: Config;
+  data: { redirectPath: string; status: string };
+  status: number;
 }

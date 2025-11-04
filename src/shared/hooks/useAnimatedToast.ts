@@ -1,6 +1,6 @@
-// hooks/useAnimatedToast.ts
+"use client";
 import { useState, useCallback } from "react";
-import { ToastState } from "@/features/auth";
+import { ToastState } from "../model/type";
 
 export const useAnimatedToast = (duration: number) => {
   const [toast, setToast] = useState<ToastState>({
@@ -8,7 +8,7 @@ export const useAnimatedToast = (duration: number) => {
     status: "",
     state: false,
   });
-  const [shouldRender, setShouldRender] = useState(false);
+  const [shouldRender, setShouldRender] = useState<boolean>(false);
 
   const showToast = useCallback(
     (comment: string, status: string) => {

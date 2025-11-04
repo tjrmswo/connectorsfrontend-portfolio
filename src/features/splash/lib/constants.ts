@@ -1,6 +1,6 @@
 export const ANIMATION_TIMING = {
-  INTRO_FADE_OUT: 1500,
-  INTRO_TOTAL: 2700,
+  INTRO_FADE_OUT: 1700,
+  INTRO_TOTAL: 3200,
 } as const;
 
 export const SLIDER_CONFIG = {
