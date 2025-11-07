@@ -135,8 +135,6 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -193,8 +191,6 @@ body {
   }
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
@@ -202,4 +198,19 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.onboarding-slider .slick-dots li.slick-active div {
+  width: 20px !important;
+  height: 8px !important;
+  border-radius: 4px !important;
+  background-color: #6e4ddc !important;
+}
+
+.onboarding-slider .slick-dots li div:hover {
+  background-color: #9ca3af;
+}
+
+.onboarding-slider .slick-dots li.slick-active div:hover {
+  background-color: #5839c1;
 }

@@ -1,34 +1,49 @@
 import { useState, useEffect } from "react";
-import { ANIMATION_TIMING } from "@/features/splash";
-import type { ViewState } from "@/entities/splash/type";
+import { ANIMATION_TIMING } from "../lib/constants";
 
 export const useSplashAnimation = () => {
-  const [viewState, setViewState] = useState<ViewState>("intro");
-  const [mounted, setMounted] = useState(false); // ✅ 마운트 상태 추가
+  const [showIntro, setShowIntro] = useState<boolean>(true);
+  const [isShowing, setIsShowing] = useState<boolean>(false);
+  const [showSlides, setShowSlides] = useState<boolean>(false);
 
   useEffect(() => {
-    // ✅ 마운트 직후 true로 변경
-    setMounted(true);
-
-    // 인트로 페이드아웃 시작
-    const fadeTimer = setTimeout(() => {
-      setViewState("intro-fade");
+    setIsShowing(true);
+    const transitionTimer = setTimeout(() => {
+      setIsShowing(false);
     }, ANIMATION_TIMING.INTRO_FADE_OUT);
-
-    // 슬라이드로 전환
-    const slideTimer = setTimeout(() => {
-      setViewState("slides");
+    const introTimer = setTimeout(() => {
+      setShowIntro(false);
+      setShowSlides(true);
     }, ANIMATION_TIMING.INTRO_TOTAL);
-
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(slideTimer);
+      clearTimeout(introTimer);
+      clearTimeout(transitionTimer);
     };
   }, []);
 
-  return {
-    showIntro: viewState === "intro" || viewState === "intro-fade",
-    isShowing: viewState === "intro" && mounted, // ✅ mounted도 체크
-    showSlides: viewState === "slides",
-  };
+  // ✅ showSlides가 true일 때만 Slick CSS 로드
+  useEffect(() => {
+    if (showSlides) {
+      // CSS를 head에 추가
+      const link1 = document.createElement("link");
+      link1.rel = "stylesheet";
+      link1.href =
+        "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css";
+      document.head.appendChild(link1);
+
+      const link2 = document.createElement("link");
+      link2.rel = "stylesheet";
+      link2.href =
+        "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css";
+      document.head.appendChild(link2);
+
+      return () => {
+        // Cleanup (선택사항)
+        document.head.removeChild(link1);
+        document.head.removeChild(link2);
+      };
+    }
+  }, [showSlides]);
+
+  return { showIntro, showSlides, isShowing };
 };

@@ -1,8 +1,14 @@
 "use client";
-import { CSSLoader, CommonToast } from "@/shared";
+import { CSSLoader, useAnimatedToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useAnimatedToast, useKakaoLogin } from "@/features/auth";
+import { useKakaoLogin } from "@/features/auth";
+import dynamic from "next/dynamic";
+
+const LoginToast = dynamic(
+  () => import("@/features/auth").then((m) => m.LoginToast),
+  { ssr: false },
+);
 
 export default function Provider() {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -28,17 +34,7 @@ export default function Provider() {
       }`}
     >
       <CSSLoader />
-      {shouldRender && (
-        <div
-          className={`fixed left-1/2 top-[2rem] -translate-x-1/2 rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
-            toast.state
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-5 opacity-0"
-          }`}
-        >
-          <CommonToast content={toast.comment} status={String(toast.status)} />
-        </div>
-      )}
+      {shouldRender && <LoginToast toast={toast} shouldRender={shouldRender} />}
     </div>
   );
 }

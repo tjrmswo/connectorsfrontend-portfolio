@@ -1,44 +1,18 @@
 "use client";
-import {
-  useAnimatedToast,
-  LoginErrorType,
-  LoginSuccessType,
-} from "@/features/auth";
-import { CommonToast, useCustomRouter, apiInstance } from "@/shared";
-import { useMutation } from "@tanstack/react-query";
+import { useFinishSignup } from "@/features/auth";
+import { useAnimatedToast } from "@/shared";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
+const LoginToast = dynamic(
+  () => import("@/features/auth").then((m) => m.LoginToast),
+  { ssr: false },
+);
+
 export default function SignupFinish() {
-  const { navigate } = useCustomRouter();
-
+  const { handleButton } = useFinishSignup();
   const { toast, shouldRender } = useAnimatedToast(1500);
-
-  const goHome = useMutation<LoginSuccessType, LoginErrorType>({
-    mutationKey: ["upgradeAuth"],
-    mutationFn: async () => {
-      const response: LoginSuccessType = await apiInstance.post(
-        "/auth/token/refresh",
-      );
-
-      console.log(response);
-
-      return response;
-    },
-    onSuccess: (data: LoginSuccessType) => {
-      // console.log(data);
-      if (data.status === 200) {
-        const term = setTimeout(() => {
-          navigate({ path: "/home", type: "push" });
-        }, 1700);
-
-        return () => clearTimeout(term);
-      }
-    },
-    onError: (e) => {
-      console.log("", e);
-    },
-  });
 
   return (
     <div className="flex size-full flex-col items-center justify-between gap-[2rem] p-[6px]">
@@ -68,22 +42,12 @@ export default function SignupFinish() {
 
       <button
         className="relative bottom-[2rem] flex h-[3rem] w-4/5 cursor-pointer items-center justify-center gap-[12px] rounded-[0.5rem] bg-[#292C33] text-[18px] leading-[23px] text-[#fff] text-[500]"
-        onClick={() => goHome.mutate()}
+        onClick={handleButton}
       >
         커넥터즈 시작하기
       </button>
 
-      {shouldRender && (
-        <div
-          className={`fixed top-[2rem] rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
-            toast.state
-              ? "translate-y-[0px] opacity-100"
-              : "-translate-y-[-20px] opacity-0"
-          }`}
-        >
-          <CommonToast content={toast.comment} status={String(toast.status)} />
-        </div>
-      )}
+      {shouldRender && <LoginToast toast={toast} shouldRender={shouldRender} />}
     </div>
   );
 }

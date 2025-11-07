@@ -1,7 +1,6 @@
-// features/auth/ui/LoginToast.tsx
 import { memo } from "react";
 import { CommonToast } from "@/shared";
-import type { LoginToastProps } from "@/features/auth";
+import { LoginToastProps } from "../model/type";
 
 export const LoginToast = memo(({ toast, shouldRender }: LoginToastProps) => {
   if (!shouldRender) return null;

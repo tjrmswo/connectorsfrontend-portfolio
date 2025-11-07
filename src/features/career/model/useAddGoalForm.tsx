@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { MyCareerDataType } from "./type";
 import {
-  MyCareerDataType,
   computePlans,
   handleInputError,
   handleTextareaError,
-} from "@/features/career";
+} from "../lib/validation";
 
 export default function useAddGoalForm() {
   const [goal, setGoal] = useState<string>("단기 1주");
