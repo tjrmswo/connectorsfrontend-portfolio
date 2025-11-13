@@ -2,7 +2,7 @@
 import { CSSLoader, useAnimatedToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useKakaoLogin } from "@/features/auth";
+import { useKakaoLogin, useTermsUpdateDialog } from "@/features/auth";
 import dynamic from "next/dynamic";
 
 const LoginToast = dynamic(
@@ -10,11 +10,17 @@ const LoginToast = dynamic(
   { ssr: false },
 );
 
+const TermsUpdateDialog = dynamic(
+  () => import("@/features/auth").then((m) => m.TermsUpdateDialog),
+  { ssr: false },
+);
+
 export default function Provider() {
   const [isReady, setIsReady] = useState<boolean>(false);
+  const { isUpdated, setIsUpdated, handleConfirm } = useTermsUpdateDialog();
   const { toast, shouldRender, showToast } = useAnimatedToast(1500);
   const params = useSearchParams();
-  const loginMutation = useKakaoLogin({ params, showToast });
+  const loginMutation = useKakaoLogin({ params, showToast, setIsUpdated });
 
   useEffect(() => {
     // CSS 로드를 위한 약간의 딜레이
@@ -33,8 +39,13 @@ export default function Provider() {
         isReady ? "opacity-100" : "opacity-0"
       }`}
     >
-      <CSSLoader />
-      {shouldRender && <LoginToast toast={toast} shouldRender={shouldRender} />}
+      <div className="flex h-full w-full flex-col items-center">
+        <CSSLoader />
+        {shouldRender && (
+          <LoginToast toast={toast} shouldRender={shouldRender} />
+        )}
+      </div>
+      <TermsUpdateDialog open={isUpdated} onConfirm={handleConfirm} />
     </div>
   );
 }

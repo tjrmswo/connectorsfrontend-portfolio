@@ -13,3 +13,5 @@ export { RecentLoginBadge } from "./ui/RecentLoginBadge";
 export { default as KakaoLoginButton } from "./ui/KakaoLoginButton";
 export { default as GoogleLoginButton } from "./ui/GoogleLoginButton";
 export { default as AppleLoginButton } from "./ui/AppleLoginButton";
+export { useTermsUpdateDialog } from "./hooks/useTermsUpdateDialog";
+export { TermsUpdateDialog } from "./ui/TermsUpdateDialog";

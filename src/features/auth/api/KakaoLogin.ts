@@ -23,9 +23,11 @@ async function getKakaoAccessToken(params: ReadonlyURLSearchParams) {
 export const useKakaoLogin = ({
   params,
   showToast,
+  setIsUpdated,
 }: {
   params: ReadonlyURLSearchParams;
   showToast: (comment: string, status: string) => void;
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { navigate } = useCustomRouter();
 
@@ -34,12 +36,7 @@ export const useKakaoLogin = ({
     mutationFn: () => getKakaoAccessToken(params),
     onSuccess: (data) => {
       if (data.data.status === "BLOCKED_TERMS_REQUIRED") {
-        showToast("권한체크가 필요한 사용자입니다.", String(403));
-        const termTimer = setTimeout(() => {
-          navigate({ path: "/auth/termsAgreement", type: "push" });
-        }, 1500);
-
-        return () => clearTimeout(termTimer);
+        setIsUpdated((prev) => !prev);
       } else {
         const loginTimer = setTimeout(() => {
           navigate({ path: "/home", type: "push" });
@@ -62,7 +59,7 @@ export const useKakaoLogin = ({
         return () => clearTimeout(termsTimer);
       } else if (
         e.response.data.errorCode === "OAC-002" ||
-        e.response.data.errorCode === "OAUTH-004"
+        e.response.data.errorCode === "LOGIN-002"
       ) {
         const timer = setTimeout(() => {
           navigate({ path: "/auth/login", type: "push" });

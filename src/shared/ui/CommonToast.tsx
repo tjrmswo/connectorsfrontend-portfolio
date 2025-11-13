@@ -22,7 +22,7 @@ export default function CommonToast({
       {
         return (
           <Image
-            src={"/images/common/warn.png"}
+            src={"/images/common/smileEyes.png"}
             alt="warn"
             width={27}
             height={27}

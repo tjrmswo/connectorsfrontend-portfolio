@@ -2,7 +2,7 @@
 import { CSSLoader, useAnimatedToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useGoogleLogin } from "@/features/auth";
+import { useGoogleLogin, useTermsUpdateDialog } from "@/features/auth";
 import dynamic from "next/dynamic";
 
 const LoginToast = dynamic(
@@ -10,11 +10,17 @@ const LoginToast = dynamic(
   { ssr: false },
 );
 
+const TermsUpdateDialog = dynamic(
+  () => import("@/features/auth").then((m) => m.TermsUpdateDialog),
+  { ssr: false },
+);
+
 export default function Provider() {
   const [isReady, setIsReady] = useState<boolean>(false);
+  const { isUpdated, setIsUpdated, handleConfirm } = useTermsUpdateDialog();
   const { toast, shouldRender, showToast } = useAnimatedToast(1500);
   const params = useSearchParams();
-  const loginMutation = useGoogleLogin({ params, showToast });
+  const loginMutation = useGoogleLogin({ params, showToast, setIsUpdated });
 
   useEffect(() => {
     // CSS 로드를 위한 약간의 딜레이
@@ -39,6 +45,8 @@ export default function Provider() {
           <LoginToast toast={toast} shouldRender={shouldRender} />
         )}
       </div>
+
+      <TermsUpdateDialog open={isUpdated} onConfirm={handleConfirm} />
     </div>
   );
 }
