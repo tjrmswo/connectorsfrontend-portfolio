@@ -8,7 +8,7 @@ import React from "react";
 export default function BottomTabNav() {
   const pathname = usePathname().split("/")[2];
   return (
-    <nav className="fixed bottom-0 z-50 flex h-20 w-[22rem] flex-row items-center justify-evenly border-t border-[#f1f2f2] bg-white shadow-xl">
+    <nav className="fixed bottom-0 z-50 flex h-[60px] w-[28rem] flex-row items-center justify-evenly border-t border-[#f1f2f2] bg-white shadow-xl">
       <div className="flex w-4/5 flex-row justify-around">
         {tabIcons.map((icon) => {
           return (
@@ -18,14 +18,14 @@ export default function BottomTabNav() {
               key={icon.index}
             >
               <Image
-                className="size-6"
+                className="size-5"
                 src={"/images/profile/ph_bell-light.png"}
                 alt="탭아이콘"
                 width={15}
                 height={15}
               />
               <span
-                className={`w-auto text-center text-sm leading-5 transition-[color,font-weight] duration-300 ease-in-out group-hover:font-semibold group-hover:text-[#000] ${
+                className={`w-auto text-center font-[Pretendard] text-xs leading-5 transition-[color,font-weight] duration-300 ease-in-out group-hover:font-semibold group-hover:text-[#000] ${
                   icon.content === pathname
                     ? "font-semibold text-[#000]"
                     : "font-normal text-[#1a1a1a]"

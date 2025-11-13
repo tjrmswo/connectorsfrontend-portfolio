@@ -54,17 +54,18 @@ export default function GoogleLoginButton({
   };
   return (
     <button
-      className="flex h-[50px] w-[21rem] cursor-pointer flex-row items-center justify-around rounded-[0.3rem] border border-[#70737c33] bg-[#fff] bg-[white] bg-center px-[14px] font-[Pretendard] text-[15px] font-[500]"
+      className="flex h-[50px] w-[21rem] cursor-pointer flex-row items-center justify-center rounded-[0.8rem] bg-[#EEE] py-[12px] pl-[12px] pr-[75px] font-[Pretendard] text-sm font-[600]"
       onClick={() => handleClick()}
     >
-      <Image
-        src={"/images/login/googleLogo.png"}
-        alt="애플 로고"
-        width={20}
-        height={20}
-      />
-      구글 로그인하기
-      <div />
+      <div className="ml-2 flex w-full flex-row gap-10">
+        <Image
+          src={"/images/login/googleLogo.png"}
+          alt="구글 로고"
+          width={20}
+          height={20}
+        />
+        <span className="flex-1">구글 로그인하기</span>
+      </div>
     </button>
   );
 }

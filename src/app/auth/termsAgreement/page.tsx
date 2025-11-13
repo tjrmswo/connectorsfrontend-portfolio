@@ -2,7 +2,7 @@
 import { useTimeout } from "@/shared";
 import React from "react";
 import { TermHeader, TermList, useHandleTerms } from "@/features/termAgree";
-import { TermFooter, TermTitle } from "@/entities/term";
+import { TermTitle } from "@/entities/term";
 import dynamic from "next/dynamic";
 
 const TermToast = dynamic(
@@ -23,7 +23,6 @@ export default function TermsAgreement() {
       <TermHeader />
       <TermTitle />
       <TermList />
-      <TermFooter />
       {shouldRender && <TermToast />}
     </div>
   );

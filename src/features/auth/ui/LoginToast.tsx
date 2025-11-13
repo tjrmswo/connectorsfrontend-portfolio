@@ -7,7 +7,7 @@ export const LoginToast = memo(({ toast, shouldRender }: LoginToastProps) => {
 
   return (
     <div
-      className={`fixed top-[2rem] z-50 rounded-lg border border-[#f4f4f4] shadow-xl transition-all duration-300 ease-in-out ${
+      className={`fixed top-[2rem] z-50 rounded-lg border border-[#f4f4f4] bg-[#212121cc] shadow-xl transition-all duration-500 ease-in-out ${
         toast.state ? "translate-y-0 opacity-100" : "-translate-y-5 opacity-0"
       }`}
     >

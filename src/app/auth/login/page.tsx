@@ -50,19 +50,25 @@ export default function Login() {
 
   return (
     <div
-      className={`flex h-full w-full flex-col items-center justify-between p-[5px] transition-opacity duration-300 ${
+      className={`flex h-full w-full flex-col items-center justify-start gap-32 p-[5px] transition-opacity duration-300 ${
         isReady ? "opacity-100" : "opacity-0"
       }`}
     >
       <LoginHeader />
-      <Image
-        className="relative bottom-[1rem] w-3/5 object-contain"
-        src={"/intro.png"}
-        alt="스플래시 스크린"
-        width={100}
-        height={150}
-        quality={100}
-      />
+
+      <div className="flex w-full flex-col items-center gap-2">
+        <span className="text-center font-[Pretendard] text-sm font-normal text-[#424242]">
+          커리어 로드맵 추천 솔루션
+        </span>
+        <Image
+          className="w-3/5 object-contain"
+          src={"/images/login/Logo.png"}
+          alt="스크린"
+          width={100}
+          height={150}
+          quality={100}
+        />
+      </div>
 
       <div className="mb-[5rem] flex h-auto w-full flex-col items-center justify-between gap-2">
         {/* 카카오 로그인 */}
@@ -74,6 +80,12 @@ export default function Login() {
           {recentPlatform === "Kakao" && <RecentLoginBadge />}
         </div>
 
+        {/* 애플 로그인 */}
+        <div className="relative flex flex-row items-center">
+          <AppleLoginButton />
+          {recentPlatform === "Apple" && <RecentLoginBadge />}
+        </div>
+
         {/* 구글 로그인 */}
         <div className="relative flex flex-row items-center">
           <GoogleLoginButton
@@ -83,15 +95,9 @@ export default function Login() {
           {recentPlatform === "Google" && <RecentLoginBadge />}
         </div>
 
-        {/* 애플 로그인 */}
-        <div className="relative flex flex-row items-center">
-          <AppleLoginButton />
-          {recentPlatform === "Apple" && <RecentLoginBadge />}
-        </div>
-
         {/* 로그인 없이 이용하기 */}
         <button onClick={handleSkipLogin}>
-          <span className="font-base font-[Pretendard] font-medium text-[#9BAFCD] transition-colors hover:text-black">
+          <span className="text-center font-[Pretendard] text-xs font-normal text-[#9e9e9e] underline transition-colors hover:text-black">
             로그인 없이 이용하기
           </span>
         </button>

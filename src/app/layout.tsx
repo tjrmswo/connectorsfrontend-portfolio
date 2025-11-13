@@ -21,7 +21,7 @@ export default function RootLayout({
       <body>
         <Suspense fallback={<div></div>}>
           <QueryProvider>
-            <div className="flex h-screen min-h-screen w-[32rem] items-center">
+            <div className="flex h-screen min-h-screen w-[28rem] flex-col items-center">
               {children}
             </div>
           </QueryProvider>
