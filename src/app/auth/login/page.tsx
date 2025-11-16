@@ -62,7 +62,7 @@ export default function Login() {
         </span>
         <Image
           className="w-3/5 object-contain"
-          src={"/images/login/Logo.png"}
+          src={"/images/auth/Logo.png"}
           alt="스크린"
           width={100}
           height={150}

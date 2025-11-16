@@ -60,7 +60,7 @@ export default function KakaoLoginButton({
     >
       <div className="ml-2 flex w-full flex-row gap-10">
         <Image
-          src={"/images/login/kakaoLogo.png"}
+          src={"/images/auth/kakaoLogo.png"}
           alt="카카오 로고"
           width={20}
           height={20}

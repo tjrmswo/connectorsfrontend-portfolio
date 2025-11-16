@@ -12,6 +12,7 @@ export default function useHandleTerms() {
   const [termState, setTermState] = useState<TermAgreementType[]>([]);
   const { navigate } = useCustomRouter();
   const { toast, shouldRender, showToast } = useAnimatedToast(1000);
+  const [selectedTerm] = useState<number | null>(null);
 
   const termAgreementData = useQuery<
     TermAgreementType[],
@@ -138,5 +139,6 @@ export default function useHandleTerms() {
     allAgree,
     moveNextStep,
     handleNextClick,
+    selectedTerm,
   };
 }

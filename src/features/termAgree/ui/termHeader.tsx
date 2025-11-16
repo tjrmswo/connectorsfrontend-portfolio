@@ -5,7 +5,7 @@ import useHandleBack from "../hooks/useHandleBack";
 export default function TermHeader() {
   const { backLogin } = useHandleBack();
   return (
-    <header className="mt-7 flex h-[2.1rem] w-full flex-row justify-between border-b border-b-[#E9E9E9] px-6 pb-10 text-start">
+    <header className="mt-7 flex h-[2.1rem] w-full flex-row justify-between px-6 pb-14 text-start">
       <ChevronLeft
         width={30}
         height={30}
