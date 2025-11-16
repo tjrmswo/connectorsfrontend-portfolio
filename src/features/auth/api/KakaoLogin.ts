@@ -38,6 +38,7 @@ export const useKakaoLogin = ({
       if (data.data.status === "BLOCKED_TERMS_REQUIRED") {
         setIsUpdated((prev) => !prev);
       } else {
+        showToast("로그인에 성공했습니다!", String(data.status));
         const loginTimer = setTimeout(() => {
           navigate({ path: "/home", type: "push" });
         }, 1500);

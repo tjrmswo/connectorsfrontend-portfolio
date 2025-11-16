@@ -15,39 +15,31 @@ export default function SignupFinish() {
   const { toast, shouldRender } = useAnimatedToast(1500);
 
   return (
-    <div className="flex size-full flex-col items-center justify-between gap-[2rem] p-[6px]">
-      <div />
-      <div className="relative bottom-[3rem] flex w-full flex-col items-center gap-5">
-        <p className="font-[Pretendard] text-[1rem] font-normal leading-[26px] text-[#686868]">
-          커리어 로드맵 추천 솔루션
-        </p>
+    <div className="flex size-full flex-col items-center justify-center gap-[2rem] p-[6px]">
+      <div className="mt-14 flex h-4/5 w-full flex-col items-center justify-between gap-10">
+        <div className="w-full text-center font-[Pretendard] text-2xl font-semibold text-[#212121]">
+          회원가입이 완료되었습니다!
+        </div>
+
         <Image
-          className="w-4/6 object-contain"
-          src={"/images/login/signupFinishiLogo.jpg"}
-          alt="회원가입완료 커넥터즈로고"
+          className="w-4/6"
+          src={"/images/auth/signupFinish.png"}
+          alt="회원가입 완료"
           width={150}
           height={150}
         />
-        <p className="font-[Pretendard] text-[1rem] font-bold leading-[22px] text-[#1a1a1a]">
-          회원가입 완료되었습니다!
-        </p>
-        <Image
-          className="w-2/5 object-contain"
-          src={"/images/login/connectorsBigLogo.jpg"}
-          alt="회원가입완료 커넥터즈로고"
-          width={200}
-          height={200}
-        />
+
+        <button
+          className="text-md relative bottom-[2rem] flex h-14 w-4/5 cursor-pointer items-center justify-center gap-[12px] rounded-[0.5rem] bg-[#6E4DDC] font-semibold leading-[23px] text-[#fff]"
+          onClick={handleButton}
+        >
+          커넥터즈 시작하기
+        </button>
+
+        {shouldRender && (
+          <LoginToast toast={toast} shouldRender={shouldRender} />
+        )}
       </div>
-
-      <button
-        className="relative bottom-[2rem] flex h-[3rem] w-4/5 cursor-pointer items-center justify-center gap-[12px] rounded-[0.5rem] bg-[#292C33] text-[18px] leading-[23px] text-[#fff] text-[500]"
-        onClick={handleButton}
-      >
-        커넥터즈 시작하기
-      </button>
-
-      {shouldRender && <LoginToast toast={toast} shouldRender={shouldRender} />}
     </div>
   );
 }

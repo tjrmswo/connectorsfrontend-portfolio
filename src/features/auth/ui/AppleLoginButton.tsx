@@ -16,7 +16,7 @@ export default function AppleLoginButton() {
     >
       <div className="ml-2 flex w-full flex-row gap-10">
         <Image
-          src={"/images/login/appleLogo.png"}
+          src={"/images/auth/appleLogo.png"}
           alt="애플 로고"
           width={20}
           height={20}

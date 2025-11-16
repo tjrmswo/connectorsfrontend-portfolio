@@ -59,7 +59,7 @@ export default function GoogleLoginButton({
     >
       <div className="ml-2 flex w-full flex-row gap-10">
         <Image
-          src={"/images/login/googleLogo.png"}
+          src={"/images/auth/googleLogo.png"}
           alt="구글 로고"
           width={20}
           height={20}

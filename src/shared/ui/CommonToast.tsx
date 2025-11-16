@@ -14,7 +14,7 @@ export default function CommonToast({
 
   function judgingStatus() {
     if (status.substring(0, 1) === "2") {
-      return "✅";
+      return <span className="text-sm">✅</span>;
     } else if (
       status.substring(0, 1) === "4" ||
       status.substring(0, 1) === "5"
@@ -24,8 +24,8 @@ export default function CommonToast({
           <Image
             src={"/images/common/smileEyes.png"}
             alt="warn"
-            width={27}
-            height={27}
+            width={25}
+            height={25}
           />
         );
       }

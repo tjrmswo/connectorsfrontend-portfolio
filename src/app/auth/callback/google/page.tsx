@@ -1,5 +1,5 @@
 "use client";
-import { CSSLoader, useAnimatedToast } from "@/shared";
+import { useAnimatedToast } from "@/shared";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useGoogleLogin, useTermsUpdateDialog } from "@/features/auth";
@@ -13,6 +13,14 @@ const LoginToast = dynamic(
 const TermsUpdateDialog = dynamic(
   () => import("@/features/auth").then((m) => m.TermsUpdateDialog),
   { ssr: false },
+);
+
+const LottieLoader = dynamic(
+  () => import("@/shared").then((m) => m.CSSLoader),
+  {
+    ssr: false,
+    loading: () => <div className="h-screen w-full" />, // 빈 공간 유지
+  },
 );
 
 export default function Provider() {
@@ -39,8 +47,9 @@ export default function Provider() {
         isReady ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="flex h-full w-full flex-col items-center">
-        <CSSLoader />
+      <div className="flex h-full w-full flex-col items-center justify-center">
+        {/* <CSSLoader /> */}
+        <LottieLoader />
         {shouldRender && (
           <LoginToast toast={toast} shouldRender={shouldRender} />
         )}
