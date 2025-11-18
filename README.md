@@ -18,7 +18,7 @@ BE: https://dev-api.connectforme.com/
 <br />
 <br />
 
-## 요구 사항
+## 버전 명시
 nodejs: **22.13.0** <br />
 next: **15.5.4** <br />
 pnpm: **10.15.1** <br />
