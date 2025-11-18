@@ -46,7 +46,6 @@ docker run -d -p 3000:3000 --name connectingRoad connectors
 `Frontend`
 <p>
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=black">
   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
 </p>
@@ -120,17 +119,5 @@ DevOps
 │   │   └── util
 │   └── wigdgets/
 │       ├── bottomTab
-│       └── header
-├── .dockerignore
-├── .gitignore
-├── .prettierrc
-├── Dockerfile
-├── components.json
-├── eslint.config.mjs
-├── next.config.ts
-├── package.json
-├── pnpm-lock.yaml
-├── postcss.config.js
-├── tailwind.config.js
-└── tsconfig.json
+└──       └── header
 ```
