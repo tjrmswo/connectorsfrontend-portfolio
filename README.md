@@ -46,19 +46,20 @@ docker run -d -p 3000:3000 --name connectingRoad connectors
 `Frontend`
 <p>
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=black">
   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
 </p>
-`State Management`
+State Management
 <p>
   <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 </p>
-`Styling`
+Styling
 <p>
   <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
   <img src="https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white">
 </p>
-`DevOps`
+DevOps
 <p>
   <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
   <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
@@ -68,8 +69,14 @@ docker run -d -p 3000:3000 --name connectingRoad connectors
   <img src="https://img.shields.io/badge/AWS S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white">
   <img src="https://img.shields.io/badge/Route 53-512BD4?style=for-the-badge&logo=amazons3&logoColor=white">
 </p>
-```
-.
+<br />
+<br />
+
+## 시스템 아키텍쳐
+<img width="2816" height="1655" alt="Connectors system_Architectures" src="https://github.com/user-attachments/assets/891a5cfd-a780-4ed0-b10a-bbced62b0c96" />
+
+## 📁 폴더 구조
+```.
 ├── .github
 ├── public/
 │   ├── font
