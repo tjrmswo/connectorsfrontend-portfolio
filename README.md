@@ -68,4 +68,62 @@ docker run -d -p 3000:3000 --name connectingRoad connectors
   <img src="https://img.shields.io/badge/AWS S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white">
   <img src="https://img.shields.io/badge/Route 53-512BD4?style=for-the-badge&logo=amazons3&logoColor=white">
 </p>
-
+```
+.
+├── .github
+├── public/
+│   ├── font
+│   └── images
+├── src/
+│   ├── app/
+│   │   ├── auth/
+│   │   │   ├── callback
+│   │   │   ├── login
+│   │   │   ├── signupFinish
+│   │   │   └── termsAgreement
+│   │   ├── home/
+│   │   │   ├── content
+│   │   │   ├── profile/
+│   │   │   │   ├── career/
+│   │   │   │   │   └── mycareer
+│   │   │   │   ├── default
+│   │   │   │   ├── myprofile
+│   │   │   │   └── resume
+│   │   │   ├── roadMap
+│   │   │   └── search
+│   │   └── user
+│   ├── entities/
+│   │   ├── profile
+│   │   └── term
+│   ├── features/
+│   │   ├── auth
+│   │   ├── career
+│   │   ├── onboarding
+│   │   ├── splash
+│   │   └── termAgree
+│   ├── lib
+│   ├── shared/
+│   │   ├── api
+│   │   ├── constants
+│   │   ├── hooks
+│   │   ├── lib
+│   │   ├── model
+│   │   ├── providers
+│   │   ├── ui
+│   │   └── util
+│   └── wigdgets/
+│       ├── bottomTab
+│       └── header
+├── .dockerignore
+├── .gitignore
+├── .prettierrc
+├── Dockerfile
+├── components.json
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── tailwind.config.js
+└── tsconfig.json
+```
