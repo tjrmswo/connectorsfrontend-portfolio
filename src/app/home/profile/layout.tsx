@@ -22,9 +22,9 @@ export default function ProfileLayout({
   }
 
   return (
-    <div className="flex h-full flex-col items-center gap-5 p-6">
+    <div className="flex h-full w-full flex-col items-center gap-5 bg-[#f7f7f7] p-6">
       <header className="flex w-[24rem] flex-row justify-between">
-        <div className="flex w-2/5 flex-row justify-between">
+        <div className="flex w-3/5 flex-row justify-between">
           {headerElement.map((data) => (
             <ProfileHeaderElement
               key={data.id}

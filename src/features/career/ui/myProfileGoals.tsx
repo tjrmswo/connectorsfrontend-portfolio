@@ -25,10 +25,10 @@ export default function MyProfileGoals({
         <span className="text-[#F5514B]">*</span>
       </div>
       <Select value={goal} onValueChange={handleGoalChange}>
-        <SelectTrigger className="rounded-sm border-2 border-[#d9d9d9] font-[Pretendard] font-normal focus-visible:border-[#6E4DDC] focus-visible:outline-none focus-visible:ring-0 data-[state=open]:border-[#6E4DDC]">
+        <SelectTrigger className="group rounded-sm border-2 border-[#d9d9d9] font-[Pretendard] font-normal focus-visible:border-[#6E4DDC] focus-visible:outline-none focus-visible:ring-0 data-[state=open]:border-[#6E4DDC]">
           <SelectValue placeholder="단기 1주" />
         </SelectTrigger>
-        <SelectContent className="rounded-sm border-2 border-[#d9d9d9] bg-white font-[Pretendard] font-normal">
+        <SelectContent className="rounded-sm border-2 border-[#6E4DDC] bg-white font-[Pretendard] font-normal [&_*[data-highlighted]]:bg-[#F5F5F5] [&_*[data-highlighted]]:outline-none">
           <SelectItem value="단기 1주">단기 1주</SelectItem>
           <SelectItem value="중기 2주">중기 2주</SelectItem>
           <SelectItem value="장기 3주">장기 3주</SelectItem>
@@ -36,7 +36,7 @@ export default function MyProfileGoals({
       </Select>
 
       {data?.plan?.map((p) => (
-        <div key={p.id} className="flex flex-col gap-4">
+        <div key={p.id} className="group flex flex-col gap-4">
           <div className="font-sm flex flex-row items-center font-[Pretendard] font-medium leading-[12px]">
             <span className="mr-1 text-[#000]">{p.planTitle}</span>
             <span className="text-[#F5514B]">*</span>

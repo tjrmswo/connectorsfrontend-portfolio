@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useHandleOnbording from "../model/useHandleOnbording";
+import parse from "html-react-parser";
 
 export default function OnboardingSlide() {
   const {
@@ -13,6 +14,7 @@ export default function OnboardingSlide() {
     slideIndex,
     sliderRef,
     settings,
+    maxSlideIndex,
   } = useHandleOnbording();
 
   return (
@@ -33,10 +35,10 @@ export default function OnboardingSlide() {
         {onBoardingData?.map((data, index) => (
           <div className="flex h-[28rem] flex-col text-center" key={data.id}>
             <h2 className="text-center align-middle font-[Inter] text-[20px] text-xl font-bold leading-relaxed text-[#222]">
-              {data.title}
+              {parse(data.title.replace(/\n/g, "<br />"))}
             </h2>
             <p className="mb-[2rem] text-center align-middle font-[Pretendard] text-[#686868]">
-              {data.content}
+              {parse(data.content.replace(/\n/g, "<br />"))}
             </p>
 
             <div className="relative h-[300px] w-full">
@@ -48,7 +50,6 @@ export default function OnboardingSlide() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                // ✅ 나머지는 lazy loading
                 loading={index === 0 ? "eager" : "lazy"}
               />
             </div>
@@ -61,7 +62,7 @@ export default function OnboardingSlide() {
           onClick={handleButtonClick}
         >
           <span className="relative bottom-[1.5px] font-[Pretendard]">
-            {slideIndex >= 4 ? "커넥터즈 시작하기" : "다음"}
+            {slideIndex >= maxSlideIndex ? "커넥터즈 시작하기" : "다음"}
           </span>
         </button>
       </div>

@@ -21,28 +21,11 @@ export default function useHandleOnbording() {
     setSlideIndex(newIndex);
   }, []);
 
-  const handleNext = () => {
-    if (sliderRef.current && slideIndex < 4) {
-      // 마지막 슬라이드 전까지만
-      sliderRef.current.slickNext();
-      setSlideIndex((prev) => prev + 1);
-    }
-  };
-
-  const handleButtonClick = () => {
-    if (slideIndex >= 4) {
-      // 커넥터즈 시작 또는 홈 이동
-      routingLogin();
-    } else {
-      handleNext();
-    }
-  };
-
   const { data: onBoardingData } = useQuery<onBoardingDataType[]>({
     queryKey: ["onBoarding"],
     queryFn: async () => {
       const response = await apiInstance.get("/onboarding/info");
-      // console.log("온보딩 데이터: ", response.data);
+      console.log("온보딩 데이터: ", response.data);
       return response.data;
     },
     staleTime: QUERY_CONFIG.STALE_TIME,
@@ -50,6 +33,22 @@ export default function useHandleOnbording() {
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
+
+  const maxSlideIndex = (onBoardingData?.length ?? 3) - 1;
+
+  const handleNext = () => {
+    if (sliderRef.current && slideIndex < maxSlideIndex) {
+      sliderRef.current.slickNext();
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (slideIndex >= maxSlideIndex) {
+      routingLogin();
+    } else {
+      handleNext();
+    }
+  };
 
   const settings = {
     dots: true,
@@ -108,5 +107,6 @@ export default function useHandleOnbording() {
     sliderRef,
     handleSlideIndex,
     settings,
+    maxSlideIndex,
   };
 }

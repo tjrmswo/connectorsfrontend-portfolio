@@ -8,7 +8,11 @@ import {
 
 export default function useAddGoalForm() {
   const [goal, setGoal] = useState<string>("단기 1주");
-  const [data, setData] = useState<MyCareerDataType>(computePlans(goal));
+  const [data, setData] = useState<MyCareerDataType>({
+    title: "",
+    plan: [{ id: 1, planTitle: "1주차 계획", content: "" }],
+    date: "",
+  });
 
   // Title 관련 상태
   const [titleError, setTitleError] = useState("");
@@ -23,7 +27,10 @@ export default function useAddGoalForm() {
   // goal 변경 시 data 업데이트
   useEffect(() => {
     const plans = computePlans(goal);
-    setData(plans);
+    setData((prev) => ({
+      ...prev,
+      plan: plans,
+    }));
   }, [goal]);
 
   // Title 핸들러

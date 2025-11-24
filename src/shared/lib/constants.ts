@@ -19,23 +19,27 @@ export const tabIcons = [
     content: "content",
     index: 0,
     path: "/home/content",
+    src: "/images/home/content.png",
   },
   {
     name: "탐색",
     content: "search",
     index: 1,
     path: "/home/search",
+    src: "/images/home/search.png",
   },
   {
     name: "로드맵",
     content: "roadMap",
     index: 2,
     path: "/home/roadMap",
+    src: "/images/home/roadMap.png",
   },
   {
     name: "프로필",
     content: "profile",
     index: 3,
     path: "/home/profile/default",
+    src: "/images/home/profile.png",
   },
 ];
