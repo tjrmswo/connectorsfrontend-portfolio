@@ -4,10 +4,12 @@ import { CalendarIcon } from "lucide-react";
 import {
   Button,
   Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Calendar,
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTitle,
 } from "@/shared";
 import { useState } from "react";
 import { ko } from "date-fns/locale";
@@ -65,27 +67,21 @@ export function DatePicker({
           }}
           placeholder={value}
         />
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              id="date-picker"
-              variant="ghost"
-              className="absolute right-2 top-1/2 size-6 -translate-y-1/2"
-            >
-              <CalendarIcon className="size-3.5" />
-              <span className="sr-only">Select date</span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            className="w-auto overflow-hidden border-none bg-[#F1F9FF] p-2 shadow-xl"
-            align="end"
-            alignOffset={-8}
-            sideOffset={10}
-          >
+        <Button
+          id="date-picker"
+          variant="ghost"
+          className="absolute right-2 top-1/2 size-6 -translate-y-1/2"
+          onClick={() => setOpen(true)}
+        >
+          <CalendarIcon className="size-3.5" />
+        </Button>
+        <AlertDialog open={open}>
+          <AlertDialogContent className="flex w-[340px] flex-col items-center font-[Pretendard]">
+            <AlertDialogTitle></AlertDialogTitle>
             <Calendar
               mode="single"
               selected={date}
-              captionLayout="dropdown"
+              captionLayout="label"
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
@@ -95,9 +91,19 @@ export function DatePicker({
                 setOpen(false);
               }}
               locale={ko}
+              fromYear={2020}
+              toYear={2030}
             />
-          </PopoverContent>
-        </Popover>
+            <AlertDialogFooter className="w-full">
+              <AlertDialogCancel
+                className="h-12 w-full rounded-lg border-2 bg-[#6E4DDC] font-[Pretendard] font-semibold text-white hover:border-[#6E4DDC] hover:bg-[#ffffff] hover:text-[#6E4DDC]"
+                onClick={() => setOpen(false)}
+              >
+                확인
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

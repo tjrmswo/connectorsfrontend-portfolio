@@ -6,7 +6,12 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
+import {
+  DayButton,
+  DayPicker,
+  getDefaultClassNames,
+  useDayPicker,
+} from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/shared/ui/button";
@@ -19,6 +24,7 @@ function Calendar({
   buttonVariant = "ghost",
   formatters,
   components,
+  onMonthChange,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
@@ -29,7 +35,7 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        "group/calendar bg-[#F1F9FF] p-3 font-[Pretendard] [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+        "group/calendar bg-[#ffffff] p-3 font-[Pretendard] [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className,
@@ -41,24 +47,30 @@ function Calendar({
         ...formatters,
       }}
       classNames={{
-        root: cn("w-fit", defaultClassNames.root),
+        root: cn(
+          "w-full flex justify-center items-center",
+          defaultClassNames.root,
+        ),
         months: cn(
           "relative flex flex-col gap-4 md:flex-row",
           defaultClassNames.months,
         ),
-        month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
+        month: cn(
+          "flex w-full flex-col gap-2 h-[325px]",
+          defaultClassNames.month,
+        ),
         nav: cn(
-          "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
+          "hidden absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
           defaultClassNames.nav,
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          "h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50 text-[#007AFF]",
+          "hidden h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50 text-[#6E4DDC]",
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          "h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50 text-[#007AFF]",
+          "hidden h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50 text-[#6E4DDC]",
           defaultClassNames.button_next,
         ),
         month_caption: cn(
@@ -100,7 +112,7 @@ function Calendar({
           defaultClassNames.week_number,
         ),
         day: cn(
-          "group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md [&[data-selected=true]]:!bg-[#D4EAFF] [&[data-selected=true]]:!text-[#007AFF] [&[data-selected=true]]:font-medium [&[data-selected=true]]:!rounded-lg",
+          "group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md [&[data-selected=true]]:!bg-[#6E4DDC] [&[data-selected=true]]:!text-[#ffffff] [&[data-selected=true]]:font-medium [&[data-selected=true]]:!rounded-2xl",
           defaultClassNames.day,
         ),
         range_start: cn(
@@ -110,7 +122,7 @@ function Calendar({
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_end: cn("bg-accent rounded-r-md", defaultClassNames.range_end),
         today: cn(
-          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none text-[#007AFF]",
+          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none text-[#6E4DDC]",
           defaultClassNames.today,
         ),
         outside: cn(
@@ -163,6 +175,52 @@ function Calendar({
                 {children}
               </div>
             </td>
+          );
+        },
+        MonthCaption: ({ calendarMonth }) => {
+          const { goToMonth } = useDayPicker();
+
+          const handlePreviousMonth = () => {
+            const newDate = new Date(calendarMonth.date);
+            newDate.setMonth(newDate.getMonth() - 1);
+            goToMonth(newDate);
+            onMonthChange?.(newDate);
+          };
+
+          const handleNextMonth = () => {
+            const newDate = new Date(calendarMonth.date);
+            newDate.setMonth(newDate.getMonth() + 1);
+            goToMonth(newDate);
+            onMonthChange?.(newDate);
+          };
+
+          return (
+            <div className="mb-4 flex items-center justify-between">
+              <div className="text-sm font-medium">
+                {calendarMonth.date.toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  className="group size-8 p-0"
+                  onClick={handlePreviousMonth}
+                  type="button"
+                >
+                  <ChevronLeftIcon className="size-4 text-[#e0e0e0] transition-colors group-hover:text-[#6E4DDC] group-active:text-[#6E4DDC]" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="group size-8 p-0"
+                  onClick={handleNextMonth}
+                  type="button"
+                >
+                  <ChevronRightIcon className="size-4 text-[#e0e0e0] transition-colors group-hover:text-[#6E4DDC] group-active:text-[#6E4DDC]" />
+                </Button>
+              </div>
+            </div>
           );
         },
         ...components,

@@ -28,35 +28,20 @@ export const checkContentsLength = (content: string) => {
 export function computePlans(goal: string) {
   switch (goal) {
     case "단기 1주":
-      return {
-        title: "",
-        plan: [{ id: 1, planTitle: "1주차 계획", content: "" }],
-        date: "",
-      };
+      return [{ id: 1, planTitle: "1주차 계획", content: "" }];
+
     case "중기 2주":
-      return {
-        title: "",
-        plan: [
-          { id: 1, planTitle: "1주차 계획", content: "" },
-          { id: 2, planTitle: "2주차 계획", content: "" },
-        ],
-        date: "",
-      };
+      return [
+        { id: 1, planTitle: "1주차 계획", content: "" },
+        { id: 2, planTitle: "2주차 계획", content: "" },
+      ];
     case "장기 3주":
-      return {
-        title: "",
-        plan: [
-          { id: 1, planTitle: "1주차 계획", content: "" },
-          { id: 2, planTitle: "2주차 계획", content: "" },
-          { id: 3, planTitle: "3주차 계획", content: "" },
-        ],
-        date: "",
-      };
+      return [
+        { id: 1, planTitle: "1주차 계획", content: "" },
+        { id: 2, planTitle: "2주차 계획", content: "" },
+        { id: 3, planTitle: "3주차 계획", content: "" },
+      ];
     default:
-      return {
-        title: "",
-        plan: [{ id: 1, planTitle: "1주차 계획", content: "" }],
-        date: "",
-      };
+      return [{ id: 1, planTitle: "1주차 계획", content: "" }];
   }
 }

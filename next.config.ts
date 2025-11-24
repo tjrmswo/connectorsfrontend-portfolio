@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: [`${DOMAIN_BUCKET}`, `${DOMAIN_DEV}`],
     formats: ["image/avif", "image/webp"],
+    qualities: [25, 50, 75],
   },
   // 컴파일러 최적화
   compiler: {

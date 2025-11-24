@@ -3,3 +3,4 @@ export { profileItems, headerElement } from "./lib/constants";
 export { default as ProfileGoal } from "./ui/ProfileGoal";
 export { default as ProfileHeaderElement } from "./ui/ProfileHeaderElement";
 export type { ProfileCardProps } from "./model/type";
+export { default as ProfileError } from "./ui/profileError";

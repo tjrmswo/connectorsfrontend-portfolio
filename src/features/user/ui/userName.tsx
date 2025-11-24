@@ -1,37 +1,34 @@
+import { ProfileError } from "@/entities/profile";
 import { Input } from "@/shared";
 import React from "react";
-import { ProfileError } from "@/entities/profile";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { ProfileFormData } from "../model/profileSchema";
-import useProfilePhoneNumber from "../model/useProfilePhoneNumber";
 
-export default function UserPhoneNumber({
+export default function UserName({
   register,
   error,
 }: {
   register: UseFormRegister<ProfileFormData>;
   error: FieldErrors<ProfileFormData>;
 }) {
-  const { handleChange } = useProfilePhoneNumber({ register });
-
   return (
     <div className="flex w-full flex-col gap-2">
-      <div className="font-sm flex flex-row items-center font-[Pretendard] font-medium leading-[12px]">
-        <span className="mr-1 text-[#000]">휴대전화</span>
+      <div className="flex flex-row items-center font-[Pretendard] leading-[12px]">
+        <span className="mr-1 text-sm font-semibold text-[#000]">이름</span>
+        <span className="text-[#F5514B]">*</span>
       </div>
       <div className="flex flex-col gap-2">
         <Input
-          {...register("phone")}
-          onChange={handleChange}
+          {...register("name")}
           className={`rounded-sm border font-[Pretendard] font-normal leading-[12px] transition-colors placeholder:text-[#BDBDBD] ${
-            error.phone
+            error.name
               ? "border-[#E25C6E]"
               : "border-[#d9d9d9] focus:border-[#6E4DDC]"
           }`}
-          maxLength={31}
-          placeholder="전화번호를 입력해주세요"
+          placeholder="이름을 입력해 주세요"
+          maxLength={21}
         />
-        {error.phone && <ProfileError message={error.phone.message} />}
+        {error.name && <ProfileError message={error.name.message} />}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function ProfileButton({
         variant={"outline"}
         size={"lg"}
         disabled={!isFormValid}
-        className={`h-12 w-full bg-black font-[Pretendard] text-lg font-medium leading-[23px] text-[#fff] ${isFormValid ? "bg-black" : "bg-[#9199A4]"}`}
+        className={`h-12 w-full border-2 bg-black font-[Pretendard] text-lg font-medium leading-[23px] text-[#fff] hover:border-[#6E4DDC] hover:text-[#6E4DDC] ${isFormValid ? "bg-[#6E4DDC]" : "bg-[#9199A4]"}`}
       >
         작성완료
       </Button>
