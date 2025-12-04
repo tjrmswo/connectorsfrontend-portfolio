@@ -1,7 +1,8 @@
 <div align="center">
 
 # 🌟 Connectors
-
+<h3>해당 레포지토리는 현재 1차 MVP를 완료하기 전까지 개발된 사항을 옮겨놓은 포트폴리오 확인용 임시 레포지토리입니다.</h1> 
+<br />
 <img width="441" alt="Connectors Logo" src="https://github.com/user-attachments/assets/dc07a36a-df84-46be-bd93-c32970a8e32f" />
 
 ### 당신의 커리어를 연결하는 가장 스마트한 방법
